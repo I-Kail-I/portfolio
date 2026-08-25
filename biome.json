@@ -82,6 +82,12 @@
   },
   "overrides": [
     {
+      "includes": ["**/*.css"],
+      "formatter": {
+        "lineWidth": 320
+      }
+    },
+    {
       "includes": ["**/*.json", "**/*.jsonc"],
       "formatter": {
         "trailingCommas": "none"
