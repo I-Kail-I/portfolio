@@ -1,0 +1,35 @@
+{
+  "name": "template",
+  "version": "1.0.0",
+  "description": "",
+  "author": "I-Kail-I",
+  "license": "MIT",
+  "scripts": {
+    "dev": "bun run --parallel dev:backend dev:frontend",
+    "dev:backend": "bun run --filter backend start:dev",
+    "dev:frontend": "bun run --filter frontend dev",
+    "docker:up-prod": "docker compose -f docker-compose.prod.yml up -d",
+    "docker:down": "docker compose -f docker-compose.prod.yml down",
+    "build-prod": "docker compose -f docker-compose.prod.yml build",
+    "build:no-cache-prod": "docker compose -f docker-compose.prod.yml build --no-cache",
+    "format": "bun run check:fix",
+    "format:check": "bun run check",
+    "format:backend": "biome check --write ./app/backend",
+    "format:frontend": "biome check --write ./app/frontend",
+    "lint": "bun run check",
+    "lint:fix": "bun run check:fix",
+    "lint:backend": "biome check ./app/backend",
+    "lint:frontend": "biome check ./app/frontend",
+    "check": "biome check .",
+    "check:fix": "biome check --write .",
+    "test": "bun run test:backend && bun run test:frontend",
+    "test:backend": "bun run --filter backend test",
+    "test:frontend": "bun run --filter frontend test"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.5.10"
+  },
+  "workspaces": [
+    "./app/*"
+  ]
+}

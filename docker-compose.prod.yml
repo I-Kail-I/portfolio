@@ -1,0 +1,42 @@
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: ./app/backend/Dockerfile
+      target: prod
+    container_name: Backend_prod
+    restart: unless-stopped
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: "3"
+    env_file:
+      - ./app/backend/.env
+    healthcheck:
+      test:
+        - "CMD"
+        - "bun"
+        - "-e"
+        - "fetch('http://localhost:8000/api/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"
+      interval: 30s
+      timeout: 3s
+      retries: 3
+      start_period: 5s
+
+  frontend:
+    build:
+      context: .
+      dockerfile: ./app/frontend/Dockerfile
+      target: prod
+    container_name: Frontend_prod
+    restart: unless-stopped
+    depends_on:
+      - backend
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: "3"
+    env_file:
+      - ./app/frontend/.env

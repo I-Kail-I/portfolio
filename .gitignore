@@ -1,0 +1,11 @@
+*node_modules
+.next
+build
+dist
+
+.env*
+!.env.example
+
+.opencode/**/*
+!.opencode/skills/
+!.opencode/skills/**
