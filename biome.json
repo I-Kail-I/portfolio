@@ -115,6 +115,15 @@
         "rules": {
           "suspicious": {
             "noExplicitAny": "off"
+          },
+          "nursery": {
+            "useSortedClasses": {
+              "level": "error",
+              "options": {
+                "attributes": ["classList"],
+                "functions": ["clsx", "cva", "cn"]
+              }
+            }
           }
         }
       }
