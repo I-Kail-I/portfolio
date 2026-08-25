@@ -45,7 +45,7 @@ export default function RootLayout({
         geistMono.variable,
         'font-sans',
         plusJakartaSans.variable,
-        nunito.variableS,
+        nunito.variable,
       )}
     >
       <Providers>
