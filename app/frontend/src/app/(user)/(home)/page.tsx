@@ -1,5 +1,4 @@
 import { HeroSection } from './_sections/hero-section';
-import ContactSection from './_sections/contact-section';
 import HowIWorkSection from './_sections/how-i-work-section';
 import ServiceSection from './_sections/service-section';
 import { MovingTextSection } from './_sections/moving-text-section';
@@ -13,7 +12,6 @@ export default function page() {
       <SelectedWorkSection />
       <HowIWorkSection />
       <ServiceSection />
-      <ContactSection />
     </div>
   );
 }
