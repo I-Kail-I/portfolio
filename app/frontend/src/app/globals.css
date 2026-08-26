@@ -48,10 +48,10 @@
 }
 
 @theme inline {
-  --font-heading: var(--font-sans);
-  --font-sans: var(--font-heading);
-  --font-plus-jakarta-sans: var(--font-plus-jakarta-sans);
+  --font-sans: var(--font-plus-jakarta-sans);
+  --font-heading: var(--font-plus-jakarta-sans);
   --font-nunito: var(--font-nunito);
+
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -84,13 +84,13 @@
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
 
-  --radius-sm: calc(var(--radius) * 0.6);
-  --radius-md: calc(var(--radius) * 0.8);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) * 1.4);
-  --radius-2xl: calc(var(--radius) * 1.8);
-  --radius-3xl: calc(var(--radius) * 2.2);
-  --radius-4xl: calc(var(--radius) * 2.6);
+  --rounded-sm: calc(var(--radius) * 0.6);
+  --rounded-md: calc(var(--radius) * 0.8);
+  --rounded-lg: var(--radius);
+  --rounded-xl: calc(var(--radius) * 1.4);
+  --rounded-2xl: calc(var(--radius) * 1.8);
+  --rounded-3xl: calc(var(--radius) * 2.2);
+  --rounded-4xl: calc(var(--radius) * 2.6);
 
   --shadow-2xs: var(--shadow-2xs);
   --shadow-xs: var(--shadow-xs);
@@ -105,6 +105,11 @@
 @layer base {
   * {
     @apply border-border outline-ring/50;
+  }
+
+  ::selection {
+    background-color: #dedede;
+    color: #141414;
   }
 
   * {
@@ -134,15 +139,11 @@
   ::-webkit-scrollbar-corner {
     background: transparent;
   }
+
+  html,
   body {
-    @apply bg-background text-foreground;
-  }
-  html {
-    @apply font-sans;
-  }
-  :root {
-    --font-heading: var(--font-plus-jakarta-sans);
-    --font-body: var(--font-nunito);
+    @apply bg-background text-foreground font-sans;
+    line-height: 1.6;
   }
 
   h1 {
@@ -191,11 +192,6 @@
     line-height: 1.5;
     letter-spacing: 0;
     font-weight: 500;
-  }
-
-  body {
-    font-family: var(--font-body);
-    line-height: 1.6;
   }
 
   code,
@@ -267,7 +263,7 @@
     font-family: var(--font-mono);
     font-size: 0.875em;
     background: var(--muted);
-    border-radius: var(--radius-sm);
+    border-radius: var(--rounded-sm);
     padding: 0.15em 0.35em;
   }
   .markdown-view pre {
@@ -275,7 +271,7 @@
     padding: 1em;
     overflow-x: auto;
     background: var(--muted);
-    border-radius: var(--radius-md);
+    border-radius: var(--rounded-md);
   }
   .markdown-view pre code {
     padding: 0;
@@ -290,7 +286,7 @@
   .markdown-view img {
     max-width: 100%;
     height: auto;
-    border-radius: var(--radius-md);
+    border-radius: var(--rounded-md);
   }
   .markdown-view table {
     width: 100%;
