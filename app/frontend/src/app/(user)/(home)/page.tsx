@@ -1,13 +1,19 @@
-'use client';
+import { HeroSection } from './_sections/hero-section';
+import ContactSection from './_sections/contact-section';
+import HowIWorkSection from './_sections/how-i-work-section';
+import ServiceSection from './_sections/service-section';
+import { MovingTextSection } from './_sections/moving-text-section';
+import SelectedWorkSection from './_sections/selected-work-section';
 
-import { UserContainer } from './_components/user-container';
-import { useUser } from './_hooks/hooks.client';
-
-export default function UserPage() {
-  const { data: user, isLoading, isError } = useUser();
-
-  if (isLoading) return <div>Loading user profile...</div>;
-  if (isError || !user) return <div>Error loading user data.</div>;
-
-  return <UserContainer userName={user.name} />;
+export default function page() {
+  return (
+    <div>
+      <HeroSection />
+      <MovingTextSection />
+      <SelectedWorkSection />
+      <HowIWorkSection />
+      <ServiceSection />
+      <ContactSection />
+    </div>
+  );
 }

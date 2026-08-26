@@ -82,6 +82,12 @@
   },
   "overrides": [
     {
+      "includes": ["**/*.css"],
+      "formatter": {
+        "lineWidth": 320
+      }
+    },
+    {
       "includes": ["**/*.json", "**/*.jsonc"],
       "formatter": {
         "trailingCommas": "none"
@@ -109,6 +115,15 @@
         "rules": {
           "suspicious": {
             "noExplicitAny": "off"
+          },
+          "nursery": {
+            "useSortedClasses": {
+              "level": "error",
+              "options": {
+                "attributes": ["classList"],
+                "functions": ["clsx", "cva", "cn"]
+              }
+            }
           }
         }
       }
