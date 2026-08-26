@@ -19,10 +19,10 @@ describe('Input', () => {
   it('applies default classes', () => {
     render(<Input />);
     const input = screen.getByRole('textbox');
-    expect(input).toHaveClass('border-input');
+    expect(input).toHaveClass('bg-input/50');
     expect(input).toHaveClass('h-9');
     expect(input).toHaveClass('w-full');
-    expect(input).toHaveClass('rounded-md');
+    expect(input).toHaveClass('rounded-3xl');
   });
 
   it('applies custom className', () => {

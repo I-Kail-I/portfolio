@@ -37,7 +37,7 @@ describe('Card', () => {
     const card = screen.getByText('Card');
     expect(card).toHaveClass('group/card');
     expect(card).toHaveClass('bg-card');
-    expect(card).toHaveClass('rounded-xl');
+    expect(card).toHaveClass('rounded-4xl');
   });
 
   it('passes additional HTML attributes', () => {
@@ -65,7 +65,7 @@ describe('CardHeader', () => {
     render(<CardHeader>Header</CardHeader>);
     const header = screen.getByText('Header');
     expect(header).toHaveClass('group/card-header');
-    expect(header).toHaveClass('rounded-t-xl');
+    expect(header).toHaveClass('rounded-t-4xl');
   });
 });
 

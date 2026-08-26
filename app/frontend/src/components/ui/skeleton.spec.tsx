@@ -21,7 +21,7 @@ describe('Skeleton', () => {
     const skeleton = screen.getByTestId('skeleton');
     expect(skeleton).toHaveClass('bg-muted');
     expect(skeleton).toHaveClass('animate-pulse');
-    expect(skeleton).toHaveClass('rounded-md');
+    expect(skeleton).toHaveClass('rounded-2xl');
   });
 
   it('applies custom className', () => {
@@ -56,7 +56,7 @@ describe('Skeleton', () => {
     const skeleton = screen.getByTestId('skeleton');
     expect(skeleton).toHaveClass('custom-class');
     expect(skeleton).toHaveClass('animate-pulse');
-    expect(skeleton).toHaveClass('rounded-md');
+    expect(skeleton).toHaveClass('rounded-2xl');
     expect(skeleton).toHaveClass('bg-muted');
   });
 
