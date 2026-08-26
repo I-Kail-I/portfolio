@@ -1,7 +1,6 @@
 import { NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { describe, expect, it, beforeEach, afterEach, jest, type Mock } from 'bun:test';
-import { Role } from '@/generated/prisma/enums';
 import { BcryptService } from '@/lib/bcrypt/bcrypt.service';
 import { PrismaService } from '@/lib/prisma/prisma.service';
 import { RedisService } from '@/lib/redis/redis.service';
@@ -41,8 +40,6 @@ function createMockUser(overrides = {}) {
     password: 'hashed',
     first_name: 'John',
     last_name: 'Doe',
-    role: Role.user,
-    is_active: true,
     created_at: new Date(),
     updated_at: new Date(),
     ...overrides,
@@ -164,16 +161,6 @@ describe('AuthService', () => {
       expect(mockPrisma.session.create).not.toHaveBeenCalled();
     });
 
-    it('should reject inactive users without creating a session', async () => {
-      const user = createMockUser({ is_active: false });
-
-      asMock(mockPrisma.user.findUniqueOrThrow).mockResolvedValue(user);
-      mockBcrypt.comparePassword.mockResolvedValue(true);
-
-      await expect(service.login(loginDto)).rejects.toThrow('User is not active');
-      expect(mockPrisma.session.create).not.toHaveBeenCalled();
-    });
-
     it('should throw NotFoundException when email is not registered', async () => {
       asMock(mockPrisma.user.findUniqueOrThrow).mockRejectedValue(new NotFoundException());
 
@@ -206,7 +193,6 @@ describe('AuthService', () => {
       const user = createMockUser();
       const { password: _password, ...safeUser } = user;
 
-      asMock(mockPrisma.user.findUniqueOrThrow).mockResolvedValue(user);
       asMock(mockPrisma.session.findMany).mockResolvedValue([
         { id: 'session-1' },
         { id: 'session-2' },
@@ -243,22 +229,11 @@ describe('AuthService', () => {
     });
 
     it('should throw NotFoundException when user does not exist', async () => {
-      asMock(mockPrisma.user.findUniqueOrThrow).mockRejectedValue(new NotFoundException());
+      asMock(mockPrisma.session.findMany).mockResolvedValue([]);
+      asMock(mockPrisma.user.delete).mockRejectedValue(new NotFoundException());
 
       await expect(service.remove('missing-user-id')).rejects.toThrow(NotFoundException);
       expect(mockRedis.del).not.toHaveBeenCalled();
-      expect(asMock(mockPrisma.session.deleteMany)).not.toHaveBeenCalled();
-      expect(asMock(mockPrisma.user.delete)).not.toHaveBeenCalled();
-    });
-
-    it('should reject an inactive user without deleting it', async () => {
-      const user = createMockUser({ is_active: false });
-      asMock(mockPrisma.user.findUniqueOrThrow).mockResolvedValue(user);
-
-      await expect(service.remove(user.id)).rejects.toThrow('User is already not active');
-      expect(mockRedis.del).not.toHaveBeenCalled();
-      expect(asMock(mockPrisma.session.deleteMany)).not.toHaveBeenCalled();
-      expect(asMock(mockPrisma.user.delete)).not.toHaveBeenCalled();
     });
   });
 });
