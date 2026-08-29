@@ -34,7 +34,7 @@ export function Footer() {
 
         <Reveal once={false}>
           <div className='mt-24 overflow-hidden'>
-            <p className='break-words text-center font-semibold text-[clamp(3.5rem,13vw,17rem)] text-neutral-800 leading-none'>
+            <p className='wrap-break-word text-center font-semibold text-[clamp(3.5rem,13vw,17rem)] text-neutral-800 leading-none'>
               Mikail Arianos
             </p>
           </div>

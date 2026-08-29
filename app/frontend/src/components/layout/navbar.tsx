@@ -55,7 +55,7 @@ function DesktopNavbar() {
         <div>
           <Link
             href='/'
-            className='group relative inline-block h-[1.5em] overflow-hidden font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60 rounded-sm'
+            className='group relative inline-block h-[1.5em] overflow-hidden rounded-sm font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60'
           >
             <HoverText>
               <span>Mikail Arianos</span>
@@ -70,7 +70,7 @@ function DesktopNavbar() {
             <Link
               key={item}
               href={`/${item.toLowerCase()}`}
-              className='group relative inline-block h-[1.5em] overflow-hidden font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60 rounded-sm'
+              className='group relative inline-block h-[1.5em] overflow-hidden rounded-sm font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60'
             >
               <HoverText>
                 <span>{item}</span>
@@ -82,7 +82,7 @@ function DesktopNavbar() {
 
         {/* Right Section */}
         <div>
-          <Button asChild className='cursor-pointer px-6 py-5'>
+          <Button className='cursor-pointer px-6 py-5'>
             <Link href='/contact'>Contact</Link>
           </Button>
         </div>
