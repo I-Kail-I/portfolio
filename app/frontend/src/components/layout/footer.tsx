@@ -7,14 +7,14 @@ const WHATSAPP_URL = 'https://wa.me/6285342468951';
 const LINKEDIN_URL = 'https://www.linkedin.com/in/mikail-arianos-30a268356/';
 const EMAIL = 'arianosmikail5@gmail.com';
 
-export default function Footer() {
+export function Footer() {
   return (
-    <footer className='mt-45 w-full pb-10'>
-      <div className='mt-16 border-neutral-800 border-t py-8 max-lg:mx-0' />
+    <footer className='mt-45 w-full overflow-x-hidden pb-10'>
+      <div className='mx-auto w-full max-w-6xl px-5 md:px-8'>
+        <div className='mt-16 border-neutral-800 border-t py-8' />
 
-      <div>
         <Reveal once={false}>
-          <div className='mx-55 max-lg:mx-0'>
+          <div className='mx-auto max-w-2xl lg:mx-16 lg:max-w-none'>
             <h2 className='max-w-xl font-light text-4xl lg:text-5xl'>
               Not sure what your product needs?
               <br />
@@ -34,14 +34,14 @@ export default function Footer() {
 
         <Reveal once={false}>
           <div className='mt-24 overflow-hidden'>
-            <p className='font-semibold text-base text-neutral-800 leading-none max-lg:text-8xl md:text-center lg:text-[17rem]'>
+            <p className='break-words text-center font-semibold text-[clamp(3.5rem,13vw,17rem)] text-neutral-800 leading-none'>
               Mikail Arianos
             </p>
           </div>
         </Reveal>
 
         <Reveal once={false}>
-          <div className='mx-4 mt-5 md:mx-56'>
+          <div className='mx-auto mt-5 max-w-2xl lg:mx-16 lg:max-w-none'>
             <p className='max-w-2xs text-lg text-muted-foreground md:max-w-none md:text-2xl'>
               DevOps and Full Stack Developer for founded startup
             </p>
@@ -52,7 +52,7 @@ export default function Footer() {
                 nativeButton={false}
                 className='group relative inline-flex items-center justify-center rounded-full bg-neutral-800/60 px-5 py-6 font-semibold text-neutral-100 transition-all duration-300 hover:bg-neutral-800 hover:pr-14'
               >
-                <span>{EMAIL}</span>
+                <span className='max-w-[60vw] truncate sm:max-w-none'>{EMAIL}</span>
                 <Mail className='absolute top-1/2 right-5 h-4 w-4 -translate-x-4 -translate-y-1/2 opacity-0 transition-all duration-300 ease-out group-hover:translate-x-0 group-hover:opacity-100' />
               </Button>
               <Button
@@ -69,9 +69,9 @@ export default function Footer() {
 
         <div className='mx-auto w-[81%] border-neutral-800 border-b py-10' />
 
-        <div className='container mx-auto flex items-center justify-between'>
+        <div className='flex items-center justify-between'>
           <p className='mt-10 text-muted-foreground text-sm'>
-            ©{new Date().getFullYear()} Mikail Arianos. All rights reserved.{' '}
+            ©{new Date().getFullYear()} Mikail Arianos. All rights reserved.
           </p>
         </div>
       </div>
