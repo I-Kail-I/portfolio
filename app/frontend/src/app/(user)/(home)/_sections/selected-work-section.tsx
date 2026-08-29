@@ -1,7 +1,7 @@
 import { Reveal } from '@/components/reveal';
 import SelectWorkCard from '../_components/select-work-card';
 
-export default function SelectedWorkSection() {
+export function SelectedWorkSection() {
   return (
     <div className='mt-20 flex min-h-screen justify-center md:mt-35'>
       <div className='container'>

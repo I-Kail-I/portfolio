@@ -24,7 +24,7 @@ const services = [
   },
 ];
 
-export default function ServiceSection() {
+export function ServiceSection() {
   return (
     <div className='mt-45 w-full'>
       <div className='container mx-auto'>

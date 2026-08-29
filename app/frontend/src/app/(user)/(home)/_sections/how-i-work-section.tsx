@@ -33,7 +33,7 @@ export const texts = [
   },
 ];
 
-export default function HowIWorkSection() {
+export function HowIWorkSection() {
   const [activeIndex, setActiveIndex] = useState(0);
 
   return (
