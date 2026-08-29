@@ -45,10 +45,6 @@ export class AuthService {
       throw new UnauthorizedException('Password is incorrect');
     }
 
-    if (user.is_active === false) {
-      throw new UnauthorizedException('User is not active');
-    }
-
     const expires_at = new Date(Date.now() + SESSION_TTL_MS);
     const session = await this.prisma.session.create({
       data: { user_id: user.id, expires_at },
@@ -71,14 +67,6 @@ export class AuthService {
   }
 
   async remove(userId: string): Promise<AuthResponseDto> {
-    const user = await this.prisma.user.findUniqueOrThrow({
-      where: { id: userId },
-    });
-
-    if (!user.is_active) {
-      throw new UnauthorizedException('User is already not active');
-    }
-
     const sessions = await this.prisma.session.findMany({
       where: { user_id: userId },
       select: { id: true },

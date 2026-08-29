@@ -21,8 +21,8 @@ export default function SelectWorkCard({
 }: WorkCardType) {
   return (
     <div className='group space-y-4 sm:space-y-6'>
-      <Link href={link} className='block'>
-        <Card className='relative mx-auto aspect-11/6 w-full max-w-275 gap-0 rounded-xl py-0 transition-all duration-300 hover:scale-[1.01]'>
+      <Card className='relative mx-auto aspect-11/6 w-full max-w-275 gap-0 rounded-xl py-0 transition-all duration-300 hover:scale-[1.01]'>
+        <Link href={link} className='block'>
           {imageUrl && (
             <Image
               alt={title}
@@ -32,8 +32,8 @@ export default function SelectWorkCard({
               className='object-cover'
             />
           )}
-        </Card>
-      </Link>
+        </Link>
+      </Card>
 
       <div className='mx-auto w-full max-w-275 px-2'>
         <div className='flex flex-wrap gap-x-5 gap-y-1 font-medium text-muted-foreground text-xs uppercase'>

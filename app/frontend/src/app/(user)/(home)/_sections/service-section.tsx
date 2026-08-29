@@ -1,3 +1,4 @@
+import { Reveal } from '@/components/reveal';
 import ServiceCard from '../_components/service-card';
 
 const services = [
@@ -23,17 +24,21 @@ const services = [
   },
 ];
 
-export default function ServiceSection() {
+export function ServiceSection() {
   return (
     <div className='mt-45 w-full'>
       <div className='container mx-auto'>
         <div className='font-semibold text-muted-foreground text-xs uppercase'>
-          <p>SERVICES</p>
+          <Reveal>
+            <p>SERVICES</p>
+          </Reveal>
         </div>
 
         <div className='mx-55 mt-20 grid gap-6 max-lg:mx-0 lg:grid-cols-2'>
-          {services.map((service) => (
-            <ServiceCard key={service.id} {...service} />
+          {services.map((service, index) => (
+            <Reveal key={service.id} delay={index * 0.15}>
+              <ServiceCard {...service} />
+            </Reveal>
           ))}
         </div>
       </div>

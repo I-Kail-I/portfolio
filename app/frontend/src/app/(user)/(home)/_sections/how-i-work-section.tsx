@@ -3,6 +3,7 @@
 import * as motion from 'motion/react-client';
 import { AnimatePresence } from 'motion/react';
 import { useState } from 'react';
+import { Reveal } from '@/components/reveal';
 import { TextBlock } from '../_components/text-block';
 
 export const texts = [
@@ -32,14 +33,16 @@ export const texts = [
   },
 ];
 
-export default function HowIWorkSection() {
+export function HowIWorkSection() {
   const [activeIndex, setActiveIndex] = useState(0);
 
   return (
     <div className='mt-24 w-full lg:mt-45'>
       <div className='container mx-auto'>
         <div className='font-semibold text-muted-foreground text-xs uppercase'>
-          <p>HOW I WORK</p>
+          <Reveal>
+            <p>HOW I WORK</p>
+          </Reveal>
         </div>
 
         {/* MOBILE STICKY STEP-TRACKER */}

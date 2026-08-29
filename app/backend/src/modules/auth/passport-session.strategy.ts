@@ -49,7 +49,7 @@ export class PassportSessionStrategy extends PassportStrategy(passport.Strategy,
 
     void this.getSessionUser(token)
       .then((user) => {
-        if (user == null || !user.is_active) {
+        if (user == null) {
           return this.fail(new UnauthorizedException('Invalid session'), 401);
         }
         this.success(user);
