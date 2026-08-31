@@ -1,5 +1,5 @@
 import { Reveal } from '@/components/reveal';
-import SelectWorkCard from '../_components/select-work-card';
+import { SelectWorkCard } from '../_components/select-work-card';
 
 export function SelectedWorkSection() {
   return (

@@ -6,6 +6,7 @@ import { Button } from '../ui/button';
 import { useScroll, useMotionValueEvent, motion, AnimatePresence } from 'motion/react';
 import { useState, useEffect, useCallback } from 'react';
 import { ChevronUp } from 'lucide-react';
+import { usePathname } from 'next/navigation';
 
 const navItems = ['Work', 'About', 'Service'];
 
@@ -39,6 +40,8 @@ function DesktopNavbar() {
   const { scrollY } = useScroll();
   const [atTop, setAtTop] = useState(true);
 
+  const path = usePathname();
+
   useMotionValueEvent(scrollY, 'change', (latest) => {
     setAtTop(latest < 5);
   });
@@ -66,18 +69,25 @@ function DesktopNavbar() {
 
         {/* Middle Section */}
         <div className='flex gap-x-10'>
-          {navItems.map((item) => (
-            <Link
-              key={item}
-              href={`/${item.toLowerCase()}`}
-              className='group relative inline-block h-[1.5em] overflow-hidden rounded-sm font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60'
-            >
-              <HoverText>
-                <span>{item}</span>
-                <span aria-hidden='true'>{item}</span>
-              </HoverText>
-            </Link>
-          ))}
+          {navItems.map((item) => {
+            const slug = item.toLowerCase();
+            const isActive = path === `/${slug}` || path === item;
+
+            return (
+              <Link
+                key={item}
+                href={`/${slug}`}
+                className='group relative inline-block h-[1.5em] overflow-hidden rounded-sm font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60'
+              >
+                <HoverText>
+                  <span className={isActive ? 'text-violet-400' : ''}>{item}</span>
+                  <span className={isActive ? 'text-violet-400' : ''} aria-hidden='true'>
+                    {item}
+                  </span>
+                </HoverText>
+              </Link>
+            );
+          })}
         </div>
 
         {/* Right Section */}
