@@ -18,7 +18,7 @@ type ServiceCardType = {
 
 const MAX_ROTATION = 10;
 
-export default function ServiceCard({
+export function ServiceCard({
   eyebrow,
   title,
   description,

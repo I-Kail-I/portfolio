@@ -1,7 +1,7 @@
-import WorkCard from '../_components/work-card';
+import { WorkCard } from '../_components/work-card';
 import { Reveal } from '@/components/reveal';
 
-export default function WorkSection() {
+export function WorkSection() {
   return (
     <div className='min-h-screen'>
       <div className='container mx-auto'>

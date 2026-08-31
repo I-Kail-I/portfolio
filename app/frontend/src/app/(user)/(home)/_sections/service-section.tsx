@@ -1,5 +1,5 @@
 import { Reveal } from '@/components/reveal';
-import ServiceCard from '../_components/service-card';
+import { ServiceCard } from '../_components/service-card';
 
 const services = [
   {

@@ -11,7 +11,7 @@ type WorkCardType = {
   badge: string[];
 };
 
-export default function SelectWorkCard({
+export function SelectWorkCard({
   title,
   description,
   hoverText,

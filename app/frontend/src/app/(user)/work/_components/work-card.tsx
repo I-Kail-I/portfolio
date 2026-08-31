@@ -12,7 +12,7 @@ type WorkCardType = {
   badge: string[];
 };
 
-export default function WorkCard({
+export function WorkCard({
   title,
   description,
   hoverText,
