@@ -14,7 +14,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
   return (
     <ReactLenis root options={lenisOptions}>
       <Navbar />
-      <div className='mx-5 md:mx-1'>{children}</div>
+      <div className='mx-5 mt-0 md:mx-1 md:mt-23'>{children}</div>
       <Footer />
     </ReactLenis>
   );
