@@ -2,7 +2,6 @@
 
 import { useMemo, useRef } from 'react';
 import { motion, useScroll, useTransform, type MotionValue } from 'motion/react';
-import Lenis from 'lenis';
 
 interface ScrollRevealTextProps {
   /** Paragraphs separated by a blank line. */

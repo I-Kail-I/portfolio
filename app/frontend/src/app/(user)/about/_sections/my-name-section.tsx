@@ -26,8 +26,7 @@ const SKILLS = [
   'NestJS',
   'Express',
   'Tailwind',
-  'bootstrap'
-
+  'bootstrap',
 ];
 
 export function MyNameSection() {
@@ -159,7 +158,7 @@ export function MyNameSection() {
   }, []);
 
   return (
-    <section
+    <div
       ref={containerRef}
       className='relative flex h-screen max-h-screen select-none items-center justify-center overflow-hidden'
     >
@@ -179,6 +178,6 @@ export function MyNameSection() {
           <SkillPill text={text} />
         </div>
       ))}
-    </section>
+    </div>
   );
 }

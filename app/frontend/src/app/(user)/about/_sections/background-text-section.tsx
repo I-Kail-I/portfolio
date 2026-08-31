@@ -1,4 +1,4 @@
-import { ScrollRevealText } from "../_components/scroll-reveal-text";
+import { ScrollRevealText } from '../_components/scroll-reveal-text';
 
 const BIO_TEXT = `
 I'm a full-stack engineer and DevOps enthusiast deeply fascinated by how software turns abstract logic into tangible systems. My journey into programming officially began in 2024, starting directly with frontend design before expanding across the entire stack.
