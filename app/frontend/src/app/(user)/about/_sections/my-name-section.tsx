@@ -102,15 +102,25 @@ export function MyNameSection() {
 
       Composite.add(engine.world, [...walls, ...bodies]);
 
-      // Mouse dragging
-      const mouse = Mouse.create(container);
-      const mouseConstraint = MouseConstraint.create(engine, {
-        mouse,
-        constraint: { stiffness: 0.2, render: { visible: false } },
-      });
-      Composite.add(engine.world, mouseConstraint);
-      container.style.touchAction = 'none';
-      container.style.cursor = 'grab';
+      // On mobile/coarse pointer → disable drag so page can scroll
+      const isMobile = window.matchMedia('(max-width: 768px)').matches;
+      let mouseConstraint: Matter.MouseConstraint | null = null;
+      let mouse: Matter.Mouse | null = null;
+
+      if (isMobile) {
+        container.style.touchAction = 'pan-y';
+        container.style.cursor = 'auto';
+      } else {
+        // Mouse dragging (desktop only)
+        mouse = Mouse.create(container);
+        mouseConstraint = MouseConstraint.create(engine, {
+          mouse,
+          constraint: { stiffness: 0.2, render: { visible: false } },
+        });
+        Composite.add(engine.world, mouseConstraint);
+        container.style.touchAction = 'none';
+        container.style.cursor = 'grab';
+      }
 
       const runner = Runner.create();
       Runner.run(runner, engine);
@@ -146,8 +156,8 @@ export function MyNameSection() {
         Runner.stop(runner);
         Composite.clear(engine.world, false);
         Engine.clear(engine);
-        // Clean up mouse scroll listener safely
-        if (mouseConstraint.mouse) {
+        // Clean up mouse scroll listener safely (desktop only)
+        if (mouseConstraint?.mouse && mouse) {
           const mc = mouseConstraint.mouse as any;
           if (mc.mousewheel) {
             mouse.element.removeEventListener('mousewheel', mc.mousewheel);
@@ -185,6 +195,13 @@ export function MyNameSection() {
           <SkillPill text={text} />
         </div>
       ))}
+
+      {/* transparent overlay on mobile → allow page scroll, block pill drag */}
+      <div
+        className='absolute inset-0 z-20 bg-transparent md:hidden'
+        aria-hidden='true'
+        style={{ touchAction: 'pan-y' }}
+      />
     </div>
   );
 }
