@@ -8,7 +8,7 @@ const services = [
     title: 'For founders building without an engineer',
     description:
       'Architecture, development and deployment in one ongoing partnership - for founders who need someone to think through the product, not just build it.',
-    link: '/services/fullstack-partner',
+    link: '/service#product',
     className: 'bg-purple-300',
     buttonClassName: 'bg-white/90 text-neutral-900 hover:bg-white/30',
   },
@@ -18,7 +18,7 @@ const services = [
     title: 'For teams shipping without a senior engineer',
     description:
       'Audits, CI/CD, infrastructure and ongoing advisory - for teams with developers but no senior voice setting direction.',
-    link: '/services/devops-advisory',
+    link: '/service#consulting',
     className: 'bg-yellow-300',
     buttonClassName: 'bg-yellow-400 text-neutral-900 hover:bg-yellow-400/40',
   },
