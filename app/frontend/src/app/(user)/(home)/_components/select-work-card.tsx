@@ -11,13 +11,7 @@ type WorkCardType = {
   badge: string[];
 };
 
-export function SelectWorkCard({
-  title,
-  hoverText,
-  imageUrl,
-  link,
-  badge,
-}: WorkCardType) {
+export function SelectWorkCard({ title, hoverText, imageUrl, link, badge }: WorkCardType) {
   return (
     <div className='group space-y-4 sm:space-y-6'>
       <Card className='relative mx-auto aspect-11/6 w-full max-w-275 gap-0 rounded-xl py-0 transition-all duration-300 hover:scale-[1.01]'>
@@ -42,9 +36,7 @@ export function SelectWorkCard({
         </div>
 
         <div className='mt-2 flex flex-col gap-y-1 md:flex-row md:items-start md:gap-3'>
-          <h2 className='font-light text-foreground text-xl sm:text-2xl lg:text-3xl'>
-            {title}
-          </h2>
+          <h2 className='font-light text-foreground text-xl sm:text-2xl lg:text-3xl'>{title}</h2>
 
           {hoverText && (
             <p className='shrink-0 font-light text-lg text-orange-300 opacity-0 transition-all duration-300 sm:text-xl lg:translate-y-3 lg:text-3xl lg:group-hover:translate-y-0 lg:group-hover:opacity-100'>

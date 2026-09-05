@@ -37,7 +37,9 @@ export function SelectedWorkSection() {
               </Reveal>
             ))
           ) : isError ? (
-            <p className='text-muted-foreground text-sm'>Could not load selected works. Please try again.</p>
+            <p className='text-muted-foreground text-sm'>
+              Could not load selected works. Please try again.
+            </p>
           ) : (
             data?.map((card) => (
               <Reveal key={card.id}>

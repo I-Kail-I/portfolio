@@ -14,6 +14,6 @@ export const SelectedWorkSchema = z.object({
   updated_at: z.iso.datetime(),
 });
 
-export const SelectedWorkList = z.array(SelectedWorkSchema)
+export const SelectedWorkList = z.array(SelectedWorkSchema);
 
 export type SelectedWorkType = z.infer<typeof SelectedWorkSchema>;

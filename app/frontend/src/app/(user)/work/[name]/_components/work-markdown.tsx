@@ -16,7 +16,8 @@ export function WorkMarkdown({ content }: Props) {
 
   return (
     <div
-      className='prose prose-zinc dark:prose-invert max-w-none prose-headings:font-semibold prose-headings:tracking-tight prose-h1:text-3xl prose-h2:text-2xl prose-a:text-foreground prose-a:underline prose-a:underline-offset-4 hover:prose-a:text-foreground/80 prose-code:rounded prose-code:bg-muted prose-code:px-1.5 prose-code:py-0.5 prose-code:text-sm prose-pre:bg-muted prose-pre:text-foreground prose-img:rounded-xl'
+      className='prose prose-zinc dark:prose-invert max-w-none prose-code:rounded prose-img:rounded-xl prose-code:bg-muted prose-pre:bg-muted prose-code:px-1.5 prose-code:py-0.5 prose-headings:font-semibold prose-a:text-foreground prose-code:text-sm prose-h1:text-3xl prose-h2:text-2xl prose-pre:text-foreground prose-headings:tracking-tight prose-a:underline prose-a:underline-offset-4 hover:prose-a:text-foreground/80'
+      // biome-ignore lint/security/noDangerouslySetInnerHtml: this is safe because we sanitize the content
       dangerouslySetInnerHTML={{ __html: html }}
     />
   );

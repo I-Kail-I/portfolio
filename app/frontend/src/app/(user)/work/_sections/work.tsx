@@ -40,7 +40,9 @@ export function WorkSection() {
                 </Reveal>
               ))
             ) : isError ? (
-              <p className='text-sm text-muted-foreground'>Could not load works. Please try again.</p>
+              <p className='text-muted-foreground text-sm'>
+                Could not load works. Please try again.
+              </p>
             ) : (
               data?.map((work) => (
                 <Reveal once key={work.id}>
