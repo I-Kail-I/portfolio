@@ -103,6 +103,7 @@ function DesktopNavbar() {
 
 function MobileNavbar() {
   const [open, setOpen] = useState(false);
+  const path = usePathname();
 
   const close = useCallback(() => setOpen(false), []);
 
@@ -128,8 +129,13 @@ function MobileNavbar() {
     <nav className='fixed inset-x-0 bottom-6 z-50 flex justify-center px-4'>
       <motion.div
         layout
-        transition={{ type: 'spring', stiffness: 400, damping: 32 }}
-        className={`w-full max-w-sm overflow-hidden bg-[#1a1a1a]/50 p-5 backdrop-blur-2xl ${open ? 'rounded-2xl' : 'rounded-full'}`}
+        animate={{ borderRadius: open ? 16 : 9999 }}
+        transition={{
+          layout: { type: 'spring', stiffness: 400, damping: 32 },
+          borderRadius: { duration: 0.3, delay: open ? 0 : 0.2, ease: 'easeInOut' },
+        }}
+        className='w-full max-w-sm overflow-hidden bg-[#1a1a1a]/50 p-5 backdrop-blur-2xl'
+        style={{ borderRadius: 9999 }}
       >
         {/* Toggle row */}
         <button
@@ -161,20 +167,32 @@ function MobileNavbar() {
               transition={{ duration: 0.25, ease: 'easeInOut' }}
               className='flex flex-col px-2 pb-2'
             >
-              {navItems.map((item) => (
-                <Link
-                  key={item}
-                  href={`/${item.toLowerCase()}`}
-                  onClick={close}
-                  className='rounded-2xl px-4 py-3 font-medium text-sm text-white/90 transition-colors hover:bg-white/10'
-                >
-                  {item}
-                </Link>
-              ))}
+              {['Home', ...navItems].map((item) => {
+                const isHomeItem = item === 'Home';
+                const targetHref = isHomeItem ? '/' : `/${item.toLowerCase()}`;
+                const isActive = path === targetHref;
+
+                return (
+                  <Link
+                    key={item}
+                    href={targetHref}
+                    onClick={close}
+                    className={cn(
+                      'rounded-2xl px-4 py-3 font-medium text-sm transition-colors hover:bg-white/10',
+                      isActive ? 'bg-white/15 text-violet-300' : 'text-white/90',
+                    )}
+                  >
+                    {item}
+                  </Link>
+                );
+              })}
               <Link
                 href='/contact'
                 onClick={close}
-                className='mx-2 my-2 rounded-2xl px-4 py-3 text-center font-medium text-sm text-white transition-colors hover:bg-white/10'
+                className={cn(
+                  'mx-2 my-2 rounded-2xl px-4 py-3 text-center font-medium text-sm transition-colors hover:bg-white/10',
+                  path === '/contact' ? 'bg-white/15 text-violet-300' : 'text-white',
+                )}
               >
                 Contact
               </Link>
