@@ -50,8 +50,9 @@ import { SelectedWorkModule } from './modules/work/selected-work/selected-work.m
     AuthModule,
     RedisModule,
     FileUploadModule,
-    WorkModule,
+    // SelectedWorkModule before WorkModule: else GET /work/:id swallows "selected"
     SelectedWorkModule,
+    WorkModule,
   ],
   providers: [
     {

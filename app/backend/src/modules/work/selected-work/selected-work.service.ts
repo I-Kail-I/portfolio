@@ -44,6 +44,7 @@ export class SelectedWorkService {
     const selectedWorks = await this.prisma.work.findFirstOrThrow({
       where: {
         name: name,
+        is_selected: true,
       },
     });
 

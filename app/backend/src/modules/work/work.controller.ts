@@ -46,7 +46,8 @@ export class WorkController {
     required: true,
   })
   @ApiOkResponse({ type: WorkResponseDto })
-  @Get(':id')
+  // NOTE: 'id/:id' not ':id' — bare ':id' swallows GET /work/selected
+  @Get('id/:id')
   findOne(@Param('id') id: string) {
     return this.workService.findOne(id);
   }
