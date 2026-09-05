@@ -14,6 +14,18 @@ const nextConfig: NextConfig = {
     ];
   },
   output: 'standalone',
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: '**', // Allows all HTTPS domains
+      },
+      {
+        protocol: 'http',
+        hostname: '**', // Allows all HTTP domains (useful for local dev servers)
+      },
+    ],
+  },
 };
 
 export default nextConfig;

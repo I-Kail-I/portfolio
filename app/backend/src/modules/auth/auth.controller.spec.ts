@@ -10,13 +10,11 @@ import {
   SESSION_COOKIE,
   sessionCookieOptions,
 } from './passport-session.strategy';
-import { AuthResponseDto } from './dto/response-auth.dto';
 
 describe('AuthController', () => {
   let controller: AuthController;
 
   const mockAuthService = {
-    register: jest.fn(),
     login: jest.fn(),
     logout: jest.fn(),
     remove: jest.fn(),
@@ -61,30 +59,6 @@ describe('AuthController', () => {
 
   it('should be defined', () => {
     expect(controller).toBeDefined();
-  });
-
-  describe('register', () => {
-    it('should call authService.register and return the result', async () => {
-      const dto = {
-        email: 'test@example.com',
-        password: '123456',
-        first_name: 'John',
-        last_name: 'Doe',
-      };
-      const expected: AuthResponseDto = {
-        email: 'test@example.com',
-        first_name: 'John',
-        last_name: 'Doe',
-        created_at: new Date('2026-01-01T00:00:00.000Z'),
-        updated_at: new Date('2026-01-01T00:00:00.000Z'),
-      };
-      mockAuthService.register.mockResolvedValue(expected);
-
-      const result = await controller.register(dto);
-
-      expect(result).toEqual(expected);
-      expect(mockAuthService.register).toHaveBeenCalledWith(dto);
-    });
   });
 
   describe('login', () => {

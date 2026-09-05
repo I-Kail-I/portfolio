@@ -27,6 +27,13 @@ const SKILLS = [
   'Express',
   'Tailwind',
   'bootstrap',
+  'Portainer',
+  'Dokploy',
+  'PHP',
+  'JavaScript',
+  'Caddy',
+  'Nginx',
+  'Composer',
 ];
 
 export function MyNameSection() {

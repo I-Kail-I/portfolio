@@ -129,7 +129,7 @@ function MobileNavbar() {
       <motion.div
         layout
         transition={{ type: 'spring', stiffness: 400, damping: 32 }}
-        className='w-full max-w-sm overflow-hidden rounded-full bg-[#1a1a1a]/50 p-5 backdrop-blur-2xl'
+        className={`w-full max-w-sm overflow-hidden bg-[#1a1a1a]/50 p-5 backdrop-blur-2xl ${open ? 'rounded-2xl' : 'rounded-full'}`}
       >
         {/* Toggle row */}
         <button

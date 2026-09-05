@@ -9,8 +9,14 @@ import axios from 'axios';
  *   credentials from the frontend origin.
  * - Requests time out after 5 seconds.
  */
+const isServer = typeof window === 'undefined';
+
+const baseURL = isServer
+  ? (process.env.API_URL ?? 'http://localhost:8000/api')
+  : (process.env.NEXT_PUBLIC_API_PREFIX ?? '/api');
+
 export const axiosInstance = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_PREFIX ?? '/api',
+  baseURL,
   headers: {
     Accept: 'application/json',
   },

@@ -2,7 +2,7 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { User } from '@/generated/prisma/client';
 import { BcryptService } from '@/lib/bcrypt/bcrypt.service';
 import { PrismaService } from '@/lib/prisma/prisma.service';
-import { LoginDto, RegisterDto } from './dto/auth.dto';
+import { LoginDto } from './dto/auth.dto';
 import { AuthResponseDto, LoginSuccessDto } from './dto/response-auth.dto';
 import { sessionRedisKey, SESSION_TTL_MS } from './passport-session.strategy';
 import { RedisService } from '@/lib/redis/redis.service';
@@ -20,17 +20,6 @@ export class AuthService {
   async findOne(email: string): Promise<User> {
     const user = await this.prisma.user.findUniqueOrThrow({
       where: { email },
-    });
-
-    return user;
-  }
-
-  async register(register: RegisterDto): Promise<AuthResponseDto> {
-    const hashedPassword = await this.bcrypt.hashPassword(register.password);
-
-    const user = await this.prisma.user.create({
-      data: { ...register, password: hashedPassword },
-      omit: { password: true },
     });
 
     return user;

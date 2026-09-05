@@ -1,10 +1,10 @@
 import { useQuery } from '@tanstack/react-query';
-import { fetchUser } from './hooks';
+import { fetchSelectedWorks } from './hooks';
 
-export function useUser() {
+export function useSelectedWorks() {
   return useQuery({
-    queryKey: ['user'],
-    queryFn: fetchUser,
+    queryKey: ['selected-work'],
+    queryFn: fetchSelectedWorks,
     staleTime: 1000 * 60 * 5,
   });
 }
