@@ -22,7 +22,7 @@ export function SkillPill({ text }: SkillType) {
   return (
     <div
       style={{ color: textColor }}
-      className='cursor-grab whitespace-nowrap rounded-full bg-[#1C1C1C] px-13 py-6 text-center font-semibold transition-colors hover:bg-[#2A2A2A] focus:cursor-grabbing'
+      className='cursor-grab whitespace-nowrap rounded-full bg-[#1C1C1C] px-5 py-2 text-center font-semibold transition-colors hover:bg-[#2A2A2A] focus:cursor-grabbing md:px-13 md:py-6'
     >
       {text}
     </div>

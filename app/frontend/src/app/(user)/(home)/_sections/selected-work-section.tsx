@@ -1,7 +1,25 @@
+'use client';
+
+import { useEffect } from 'react';
 import { Reveal } from '@/components/reveal';
-import { SelectWorkCard } from '../_components/select-work-card';
+import { SelectWorkCard, SelectWorkCardSkeleton } from '../_components/select-work-card';
+import { useSelectedWorks } from '../_hooks/hooks.client';
+import { toast } from '@/components/ui/toast';
 
 export function SelectedWorkSection() {
+  const { data, isLoading, error, isError } = useSelectedWorks();
+
+  useEffect(() => {
+    if (isError) {
+      const msg = error instanceof Error ? error.message : 'Unknown error';
+      toast.add({
+        title: 'Failed to load selected works',
+        description: msg,
+        type: 'error',
+      });
+    }
+  }, [isError, error]);
+
   return (
     <div className='mt-20 flex min-h-screen justify-center md:mt-35'>
       <div className='container'>
@@ -12,39 +30,29 @@ export function SelectedWorkSection() {
         </div>
 
         <div className='mt-10 space-y-12 md:mt-20 md:space-y-27'>
-          {[
-            {
-              id: 'mikail-risk-management',
-              title: 'Mikail',
-              description: 'AI-assisted risk management SaaS for construction',
-              hoverText: 'View case study',
-              imageUrl: '/projects/mikail.png',
-              link: '/projects/mikail',
-              badge: ['Next.js', 'TypeScript'],
-            },
-            {
-              id: 'mikail-risk',
-              title: 'Mikail',
-              description: 'AI-assisted risk  SaaS for construction',
-              hoverText: 'View case srudy',
-              imageUrl: '/projects/mikail.png',
-              link: '/projects/mikail',
-              badge: ['Next.js', 'TypeScript'],
-            },
-            {
-              id: 'mikail-risk-management-2',
-              title: 'Mikail',
-              description: 'AI-assisted risk management SaaS for construction',
-              hoverText: 'View case study',
-              imageUrl: '/projects/mikail.png',
-              link: '/projects/mikail',
-              badge: ['Next.js', 'TypeScript'],
-            },
-          ].map((card) => (
-            <Reveal key={card.id}>
-              <SelectWorkCard {...card} />
-            </Reveal>
-          ))}
+          {isLoading ? (
+            [1, 2, 3].map((i) => (
+              <Reveal key={i} once>
+                <SelectWorkCardSkeleton />
+              </Reveal>
+            ))
+          ) : isError ? (
+            <p className='text-muted-foreground text-sm'>
+              Could not load selected works. Please try again.
+            </p>
+          ) : (
+            data?.map((card) => (
+              <Reveal key={card.id}>
+                <SelectWorkCard
+                  title={card.name ?? 'title'}
+                  link={`/work/${card.name.toLowerCase().split(' ').join('-')}`}
+                  badge={card.badge}
+                  imageUrl={card.image_url}
+                  hoverText={card.hover_text}
+                />
+              </Reveal>
+            ))
+          )}
         </div>
       </div>
     </div>

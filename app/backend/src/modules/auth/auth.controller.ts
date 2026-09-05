@@ -2,7 +2,7 @@ import type { Response } from 'express';
 import { Body, Controller, Delete, Get, Post, Req, Res, UseGuards } from '@nestjs/common';
 import { ApiOkResponse } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
-import { LoginDto, RegisterDto } from './dto/auth.dto';
+import { LoginDto } from './dto/auth.dto';
 import { AuthResponseDto, LoginSuccessDto } from './dto/response-auth.dto';
 import { PassportSessionGuard } from './passport-session.guard';
 import * as passportSessionStrategy from './passport-session.strategy';
@@ -10,12 +10,6 @@ import * as passportSessionStrategy from './passport-session.strategy';
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
-
-  @ApiOkResponse({ type: AuthResponseDto })
-  @Post('register/email-password')
-  async register(@Body() createAuthDto: RegisterDto) {
-    return this.authService.register(createAuthDto);
-  }
 
   @ApiOkResponse({ type: LoginSuccessDto })
   @Post('login/email-password')

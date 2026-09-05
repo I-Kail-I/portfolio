@@ -1,9 +1,8 @@
-import type { UserDto } from '../user.dto';
 import { axiosInstance } from '@/lib/axios';
-import { UserSchema } from '../user.dto';
+import { SelectedWorkList, type SelectedWorkType } from '../work.dto';
 
-export async function fetchUser(): Promise<UserDto> {
-  const response = await axiosInstance.get('/user');
-  const validatedUser = UserSchema.parse(response.data);
-  return validatedUser;
+export async function fetchSelectedWorks(): Promise<SelectedWorkType[]> {
+  const response = await axiosInstance.get('/work/selected');
+
+  return SelectedWorkList.parse(response.data);
 }

@@ -4,6 +4,7 @@ import { Providers } from '@/components/provider';
 import { cn } from '@/lib/utils';
 import './globals.css';
 import { Layout } from '@/components/layout/layout';
+import { Toaster } from '@/components/ui/toast';
 
 const plusJakartaSans = Plus_Jakarta_Sans({
   subsets: ['cyrillic-ext', 'latin', 'latin-ext', 'vietnamese'],
@@ -52,6 +53,7 @@ export default function RootLayout({
       <Providers>
         <body className='flex min-h-full flex-col' suppressHydrationWarning>
           <Layout>{children}</Layout>
+          <Toaster />
         </body>
       </Providers>
     </html>

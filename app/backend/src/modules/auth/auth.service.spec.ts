@@ -96,144 +96,124 @@ describe('AuthService', () => {
       last_name: 'Doe',
     };
 
-    it('should create a user with hashed password and omit password from result', async () => {
-      const mockCreatedUser = createMockUser({
-        email: dto.email,
-        first_name: dto.first_name,
-        last_name: dto.last_name,
+    describe('login', () => {
+      const loginDto = { email: 'test@example.com', password: '123456' };
+
+      it('should return user without password and create a session on valid credentials', async () => {
+        const user = createMockUser();
+        const expiresAt = new Date(1_000_000 + SESSION_TTL_MS);
+
+        asMock(mockPrisma.user.findUniqueOrThrow).mockResolvedValue(user);
+        mockBcrypt.comparePassword.mockResolvedValue(true);
+        asMock(mockPrisma.session.create).mockResolvedValue({ id: 'session-1' });
+        const nowSpy = jest.spyOn(Date, 'now').mockReturnValue(1_000_000);
+
+        const result = await service.login(loginDto);
+
+        const { password, ...expectedResult } = user;
+        expect(result).toEqual({
+          ...expectedResult,
+          session_token: 'session-1',
+          expires_at: expiresAt,
+        });
+        expect(mockBcrypt.comparePassword).toHaveBeenCalledWith('123456', 'hashed');
+        expect(asMock(mockPrisma.session.create)).toHaveBeenCalledWith({
+          data: { user_id: user.id, expires_at: expiresAt },
+          select: { id: true },
+        });
+        expect(mockRedis.set).toHaveBeenCalledWith(
+          sessionRedisKey('session-1'),
+          JSON.stringify(expectedResult),
+          'PX',
+          SESSION_TTL_MS,
+        );
+        nowSpy.mockRestore();
       });
-      const { password: _password, ...safeUser } = mockCreatedUser;
 
-      asMock(mockPrisma.user.create).mockResolvedValue(safeUser);
+      it('should throw UnauthorizedException when password is incorrect', async () => {
+        const user = createMockUser();
 
-      const result = await service.register(dto);
+        asMock(mockPrisma.user.findUniqueOrThrow).mockResolvedValue(user);
+        mockBcrypt.comparePassword.mockResolvedValue(false);
 
-      expect(result).toEqual(safeUser);
-      expect(mockBcrypt.hashPassword).toHaveBeenCalledWith(dto.password);
-      expect(asMock(mockPrisma.user.create)).toHaveBeenCalledWith({
-        data: { ...dto, password: 'hashed-password' },
-        omit: { password: true },
+        await expect(service.login(loginDto)).rejects.toThrow(UnauthorizedException);
+        expect(mockPrisma.session.create).not.toHaveBeenCalled();
       });
-    });
-  });
 
-  describe('login', () => {
-    const loginDto = { email: 'test@example.com', password: '123456' };
+      it('should throw NotFoundException when email is not registered', async () => {
+        asMock(mockPrisma.user.findUniqueOrThrow).mockRejectedValue(new NotFoundException());
 
-    it('should return user without password and create a session on valid credentials', async () => {
-      const user = createMockUser();
-      const expiresAt = new Date(1_000_000 + SESSION_TTL_MS);
-
-      asMock(mockPrisma.user.findUniqueOrThrow).mockResolvedValue(user);
-      mockBcrypt.comparePassword.mockResolvedValue(true);
-      asMock(mockPrisma.session.create).mockResolvedValue({ id: 'session-1' });
-      const nowSpy = jest.spyOn(Date, 'now').mockReturnValue(1_000_000);
-
-      const result = await service.login(loginDto);
-
-      const { password, ...expectedResult } = user;
-      expect(result).toEqual({
-        ...expectedResult,
-        session_token: 'session-1',
-        expires_at: expiresAt,
-      });
-      expect(mockBcrypt.comparePassword).toHaveBeenCalledWith('123456', 'hashed');
-      expect(asMock(mockPrisma.session.create)).toHaveBeenCalledWith({
-        data: { user_id: user.id, expires_at: expiresAt },
-        select: { id: true },
-      });
-      expect(mockRedis.set).toHaveBeenCalledWith(
-        sessionRedisKey('session-1'),
-        JSON.stringify(expectedResult),
-        'PX',
-        SESSION_TTL_MS,
-      );
-      nowSpy.mockRestore();
-    });
-
-    it('should throw UnauthorizedException when password is incorrect', async () => {
-      const user = createMockUser();
-
-      asMock(mockPrisma.user.findUniqueOrThrow).mockResolvedValue(user);
-      mockBcrypt.comparePassword.mockResolvedValue(false);
-
-      await expect(service.login(loginDto)).rejects.toThrow(UnauthorizedException);
-      expect(mockPrisma.session.create).not.toHaveBeenCalled();
-    });
-
-    it('should throw NotFoundException when email is not registered', async () => {
-      asMock(mockPrisma.user.findUniqueOrThrow).mockRejectedValue(new NotFoundException());
-
-      await expect(service.login(loginDto)).rejects.toThrow(NotFoundException);
-      expect(mockBcrypt.comparePassword).not.toHaveBeenCalled();
-      expect(mockPrisma.session.create).not.toHaveBeenCalled();
-    });
-  });
-
-  describe('logout', () => {
-    it('should delete the Redis and DB session when a token is provided', async () => {
-      await service.logout('session-1');
-
-      expect(mockRedis.del).toHaveBeenCalledWith(sessionRedisKey('session-1'));
-      expect(asMock(mockPrisma.session.deleteMany)).toHaveBeenCalledWith({
-        where: { id: 'session-1' },
+        await expect(service.login(loginDto)).rejects.toThrow(NotFoundException);
+        expect(mockBcrypt.comparePassword).not.toHaveBeenCalled();
+        expect(mockPrisma.session.create).not.toHaveBeenCalled();
       });
     });
 
-    it('should ignore missing tokens', async () => {
-      await service.logout(undefined);
+    describe('logout', () => {
+      it('should delete the Redis and DB session when a token is provided', async () => {
+        await service.logout('session-1');
 
-      expect(mockRedis.del).not.toHaveBeenCalled();
-      expect(asMock(mockPrisma.session.deleteMany)).not.toHaveBeenCalled();
-    });
-  });
-
-  describe('remove', () => {
-    it('should delete Redis sessions, DB sessions, and delete the user', async () => {
-      const user = createMockUser();
-      const { password: _password, ...safeUser } = user;
-
-      asMock(mockPrisma.session.findMany).mockResolvedValue([
-        { id: 'session-1' },
-        { id: 'session-2' },
-      ]);
-      asMock(mockPrisma.session.deleteMany).mockResolvedValue({ count: 2 });
-      asMock(mockPrisma.user.delete).mockResolvedValue(safeUser);
-
-      const callOrder: string[] = [];
-      mockRedis.del.mockImplementation(() => {
-        callOrder.push('redis');
-        return Promise.resolve(1);
-      });
-      asMock(mockPrisma.session.deleteMany).mockImplementation(() => {
-        callOrder.push('db');
-        return Promise.resolve({ count: 2 });
+        expect(mockRedis.del).toHaveBeenCalledWith(sessionRedisKey('session-1'));
+        expect(asMock(mockPrisma.session.deleteMany)).toHaveBeenCalledWith({
+          where: { id: 'session-1' },
+        });
       });
 
-      const result = await service.remove(user.id);
+      it('should ignore missing tokens', async () => {
+        await service.logout(undefined);
 
-      expect(result).toEqual(safeUser);
-      expect(callOrder).toEqual(['redis', 'db']);
-      expect(mockRedis.del).toHaveBeenCalledWith('session:session-1', 'session:session-2');
-      expect(asMock(mockPrisma.session.findMany)).toHaveBeenCalledWith({
-        where: { user_id: user.id },
-        select: { id: true },
-      });
-      expect(asMock(mockPrisma.session.deleteMany)).toHaveBeenCalledWith({
-        where: { user_id: user.id },
-      });
-      expect(asMock(mockPrisma.user.delete)).toHaveBeenCalledWith({
-        where: { id: user.id },
-        omit: { password: true },
+        expect(mockRedis.del).not.toHaveBeenCalled();
+        expect(asMock(mockPrisma.session.deleteMany)).not.toHaveBeenCalled();
       });
     });
 
-    it('should throw NotFoundException when user does not exist', async () => {
-      asMock(mockPrisma.session.findMany).mockResolvedValue([]);
-      asMock(mockPrisma.user.delete).mockRejectedValue(new NotFoundException());
+    describe('remove', () => {
+      it('should delete Redis sessions, DB sessions, and delete the user', async () => {
+        const user = createMockUser();
+        const { password: _password, ...safeUser } = user;
 
-      await expect(service.remove('missing-user-id')).rejects.toThrow(NotFoundException);
-      expect(mockRedis.del).not.toHaveBeenCalled();
+        asMock(mockPrisma.session.findMany).mockResolvedValue([
+          { id: 'session-1' },
+          { id: 'session-2' },
+        ]);
+        asMock(mockPrisma.session.deleteMany).mockResolvedValue({ count: 2 });
+        asMock(mockPrisma.user.delete).mockResolvedValue(safeUser);
+
+        const callOrder: string[] = [];
+        mockRedis.del.mockImplementation(() => {
+          callOrder.push('redis');
+          return Promise.resolve(1);
+        });
+        asMock(mockPrisma.session.deleteMany).mockImplementation(() => {
+          callOrder.push('db');
+          return Promise.resolve({ count: 2 });
+        });
+
+        const result = await service.remove(user.id);
+
+        expect(result).toEqual(safeUser);
+        expect(callOrder).toEqual(['redis', 'db']);
+        expect(mockRedis.del).toHaveBeenCalledWith('session:session-1', 'session:session-2');
+        expect(asMock(mockPrisma.session.findMany)).toHaveBeenCalledWith({
+          where: { user_id: user.id },
+          select: { id: true },
+        });
+        expect(asMock(mockPrisma.session.deleteMany)).toHaveBeenCalledWith({
+          where: { user_id: user.id },
+        });
+        expect(asMock(mockPrisma.user.delete)).toHaveBeenCalledWith({
+          where: { id: user.id },
+          omit: { password: true },
+        });
+      });
+
+      it('should throw NotFoundException when user does not exist', async () => {
+        asMock(mockPrisma.session.findMany).mockResolvedValue([]);
+        asMock(mockPrisma.user.delete).mockRejectedValue(new NotFoundException());
+
+        await expect(service.remove('missing-user-id')).rejects.toThrow(NotFoundException);
+        expect(mockRedis.del).not.toHaveBeenCalled();
+      });
     });
   });
 });

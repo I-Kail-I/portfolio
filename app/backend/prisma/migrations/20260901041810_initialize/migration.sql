@@ -2,7 +2,7 @@
 CREATE SCHEMA IF NOT EXISTS "auth";
 
 -- CreateEnum
-CREATE TYPE "auth"."Role" AS ENUM ('user', 'admin');
+CREATE TYPE "imageStatus" AS ENUM ('active', 'pending');
 
 -- CreateTable
 CREATE TABLE "auth"."users" (
@@ -11,8 +11,6 @@ CREATE TABLE "auth"."users" (
     "last_name" TEXT NOT NULL,
     "email" TEXT NOT NULL,
     "password" TEXT NOT NULL,
-    "role" "auth"."Role" NOT NULL DEFAULT 'user',
-    "is_active" BOOLEAN NOT NULL DEFAULT true,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
 
@@ -27,6 +25,32 @@ CREATE TABLE "auth"."sessions" (
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "sessions_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "works" (
+    "id" TEXT NOT NULL,
+    "name" VARCHAR(255) NOT NULL,
+    "content" TEXT NOT NULL,
+    "image_url" TEXT NOT NULL,
+    "badge" TEXT[],
+    "hover_text" TEXT NOT NULL,
+    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updated_at" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "works_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "images" (
+    "id" TEXT NOT NULL,
+    "file_path" TEXT NOT NULL,
+    "file_name" TEXT NOT NULL,
+    "mime_type" TEXT NOT NULL,
+    "status" "imageStatus" NOT NULL DEFAULT 'pending',
+    "created_at" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "images_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateIndex

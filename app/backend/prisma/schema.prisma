@@ -7,6 +7,15 @@ datasource db {
   provider = "postgresql"
   schemas  = ["public", "auth"]
 }
+
+enum ImageStatus {
+  active
+  pending
+
+  @@map("imageStatus")
+  @@schema("public")
+}
+
 model User {
   id         String    @id @default(uuid())
   first_name String
@@ -33,3 +42,35 @@ model Session {
   @@map("sessions")
   @@schema("auth")
 }
+
+model Work {
+  id          String   @id @default(uuid())
+  name        String   @db.VarChar(255)
+  content     String
+  description String
+  image_url   String
+  image_id    String
+  badge       String[]
+  is_selected Boolean  @default(false)
+  hover_text  String
+  image       Image    @relation(fields: [image_id], references: [id], onDelete: Cascade)
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
+
+  @@map("works")
+  @@schema("public")
+}
+
+model Image {
+  id         String      @id @default(uuid())
+  file_path  String
+  file_name  String
+  mime_type  String
+  status     ImageStatus @default(pending)
+  created_at DateTime    @default(now())
+  works      Work[]
+
+  @@map("images")
+  @@schema("public")
+}
+

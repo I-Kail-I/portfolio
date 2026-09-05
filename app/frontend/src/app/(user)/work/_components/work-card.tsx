@@ -1,26 +1,18 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { Card } from '@/components/ui/card';
+import { Skeleton } from '@/components/ui/skeleton';
 
 type WorkCardType = {
   title: string;
   description: string;
   hoverText?: string;
   imageUrl?: string;
-  hoverImageUrl?: string; // the "zoomed in" state shown on hover
   link: string;
   badge: string[];
 };
 
-export function WorkCard({
-  title,
-  description,
-  hoverText,
-  imageUrl,
-  hoverImageUrl,
-  link,
-  badge,
-}: WorkCardType) {
+export function WorkCard({ title, description, hoverText, imageUrl, link, badge }: WorkCardType) {
   return (
     <div className='group space-y-4 sm:space-y-6'>
       <Card className='relative mx-auto aspect-11/6 w-full max-w-275 gap-0 overflow-hidden rounded-xl py-0 transition-all duration-300 hover:scale-[1.01]'>
@@ -29,23 +21,10 @@ export function WorkCard({
           {imageUrl && (
             <Image
               alt={title}
-              src={imageUrl}
+              src='https://www.mariajoaoabrantes.work/_next/image?url=%2Fmedia%2Fprojects%2Freach-users%2Freachusers-grid-desktop.webp&w=1920&q=75'
               fill
               sizes='(max-width: 1280px) 100vw, 1100px'
-              className={`object-cover transition-opacity duration-500 ${
-                hoverImageUrl ? 'group-hover:opacity-0' : ''
-              }`}
-            />
-          )}
-
-          {/* Hover (zoomed) image, crossfades in */}
-          {hoverImageUrl && (
-            <Image
-              alt={`${title} hover state`}
-              src={hoverImageUrl}
-              fill
-              sizes='(max-width: 1280px) 100vw, 1100px'
-              className='absolute inset-0 object-cover opacity-0 transition-opacity duration-500 group-hover:opacity-100'
+              className='object-cover transition-opacity duration-500'
             />
           )}
         </Link>
@@ -68,6 +47,27 @@ export function WorkCard({
               – {hoverText}
             </p>
           )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export function WorkCardSkeleton() {
+  return (
+    <div className='space-y-4 sm:space-y-6'>
+      <Card className='relative mx-auto aspect-11/6 w-full max-w-275 gap-0 overflow-hidden rounded-xl py-0'>
+        <Skeleton className='h-full w-full rounded-none' />
+      </Card>
+
+      <div className='mx-auto w-full max-w-275 px-2'>
+        <div className='flex flex-wrap gap-x-5 gap-y-1'>
+          <Skeleton className='h-3 w-16' />
+          <Skeleton className='h-3 w-20' />
+        </div>
+
+        <div className='mt-3 flex flex-col gap-y-2 md:flex-row md:items-start md:gap-3'>
+          <Skeleton className='h-7 w-3/4 sm:h-8 lg:h-9' />
         </div>
       </div>
     </div>

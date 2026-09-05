@@ -1,7 +1,25 @@
-import { WorkCard } from '../_components/work-card';
+'use client';
+
+import { useEffect } from 'react';
+import { WorkCard, WorkCardSkeleton } from '../_components/work-card';
 import { Reveal } from '@/components/reveal';
+import { useWorkList } from '../_hooks/hook.client';
+import { toast } from '@/components/ui/toast';
 
 export function WorkSection() {
+  const { data, isLoading, isError, error } = useWorkList();
+
+  useEffect(() => {
+    if (isError) {
+      const msg = error instanceof Error ? error.message : 'Unknown error';
+      toast.add({
+        title: 'Failed to load works',
+        description: msg,
+        type: 'error',
+      });
+    }
+  }, [isError, error]);
+
   return (
     <div className='min-h-screen'>
       <div className='container mx-auto'>
@@ -15,25 +33,30 @@ export function WorkSection() {
           </div>
 
           <div className='mt-20 space-y-15'>
-            {[1, 2, 3, 4].map((i) => (
-              <Reveal once key={i}>
-                <WorkCard
-                  title='Constructer AI'
-                  description='AI-assisted risk management SaaS for construction teams'
-                  hoverText='From 5 hours of manual work to one click.'
-                  imageUrl='/work/constructer-ai/overview.png'
-                  hoverImageUrl='/work/constructer-ai/hover-detail.png'
-                  link='/work/constructer-ai'
-                  badge={[
-                    'AI SAAS',
-                    'DASHBOARD',
-                    'AI AGENT WORKFLOWS',
-                    'UX RESEARCH',
-                    'PRODUCT STRATEGY',
-                  ]}
-                />
-              </Reveal>
-            ))}
+            {isLoading ? (
+              [1, 2, 3, 4].map((i) => (
+                <Reveal once key={i}>
+                  <WorkCardSkeleton />
+                </Reveal>
+              ))
+            ) : isError ? (
+              <p className='text-muted-foreground text-sm'>
+                Could not load works. Please try again.
+              </p>
+            ) : (
+              data?.map((work) => (
+                <Reveal once key={work.id}>
+                  <WorkCard
+                    title={work.name}
+                    description={work.description}
+                    hoverText={work.hover_text}
+                    imageUrl={work.image_url}
+                    link={`/work/${work.name.toLowerCase().split(' ').join('-')}`}
+                    badge={work.badge}
+                  />
+                </Reveal>
+              ))
+            )}
           </div>
         </div>
       </div>

@@ -9,6 +9,9 @@ import { RedisModule } from './lib/redis/redis.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { HealthController } from './modules/health/health.controller';
 import { isProduction } from './utils/check-env';
+import { FileUploadModule } from './modules/file-upload/file-upload.module';
+import { WorkModule } from './modules/work/work.module';
+import { SelectedWorkModule } from './modules/work/selected-work/selected-work.module';
 
 @Module({
   imports: [
@@ -46,6 +49,9 @@ import { isProduction } from './utils/check-env';
     PrismaModule,
     AuthModule,
     RedisModule,
+    FileUploadModule,
+    WorkModule,
+    SelectedWorkModule,
   ],
   providers: [
     {
