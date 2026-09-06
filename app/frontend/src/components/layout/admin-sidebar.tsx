@@ -74,7 +74,9 @@ export function AdminSidebar() {
                     render={
                       <Link href={item.href}>
                         <item.icon />
-                        <span className={isActive(item.href) ? 'text-violet-400' : ''}>{item.label}</span>
+                        <span className={isActive(item.href) ? 'text-violet-400' : ''}>
+                          {item.label}
+                        </span>
                       </Link>
                     }
                   />

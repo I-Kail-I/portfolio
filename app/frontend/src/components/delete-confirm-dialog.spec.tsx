@@ -36,9 +36,7 @@ describe('DeleteConfirmDialog', () => {
     );
     expect(screen.getByText('Delete work?')).toBeInTheDocument();
     expect(screen.getByText('Gone forever.')).toBeInTheDocument();
-    expect(
-      container.querySelector('[data-slot="alert-dialog-trigger"]'),
-    ).toHaveTextContent('open');
+    expect(container.querySelector('[data-slot="alert-dialog-trigger"]')).toHaveTextContent('open');
     expect(screen.getByRole('button', { name: 'Cancel' })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Delete' })).toBeInTheDocument();
   });

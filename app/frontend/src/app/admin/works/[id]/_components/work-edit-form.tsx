@@ -89,7 +89,11 @@ export function WorkEditForm({ work, onDone }: WorkEditFormProps) {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className='space-y-5'>
       <div className='grid gap-4 sm:grid-cols-2'>
-        <Field label='Name' hint='Public title on cards and detail page.' error={errors.name?.message}>
+        <Field
+          label='Name'
+          hint='Public title on cards and detail page.'
+          error={errors.name?.message}
+        >
           <Input placeholder='My Work' {...register('name')} disabled={isPending} />
         </Field>
         <Field
@@ -106,7 +110,11 @@ export function WorkEditForm({ work, onDone }: WorkEditFormProps) {
         hint='One-line summary under the title.'
         error={errors.description?.message}
       >
-        <Input placeholder='What this work is about…' {...register('description')} disabled={isPending} />
+        <Input
+          placeholder='What this work is about…'
+          {...register('description')}
+          disabled={isPending}
+        />
       </Field>
 
       <Field

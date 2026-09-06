@@ -24,9 +24,7 @@ describe('ReadmeEditor', () => {
   });
 
   it('merges custom className', () => {
-    const { container } = render(
-      <ReadmeEditor value='' onChange={() => {}} className='custom' />,
-    );
+    const { container } = render(<ReadmeEditor value='' onChange={() => {}} className='custom' />);
     expect(container.firstChild).toHaveClass('custom');
   });
 });

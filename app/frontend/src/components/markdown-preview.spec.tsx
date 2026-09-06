@@ -18,9 +18,7 @@ describe('MarkdownPreview', () => {
   });
 
   it('sanitizes script tags', async () => {
-    const { container } = render(
-      <MarkdownPreview markdown='<script>alert(1)</script><p>ok</p>' />,
-    );
+    const { container } = render(<MarkdownPreview markdown='<script>alert(1)</script><p>ok</p>' />);
     await screen.findByText('ok');
     expect(container.querySelector('script')).not.toBeInTheDocument();
   });

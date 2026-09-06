@@ -8,13 +8,7 @@ import { cn } from '@/lib/utils';
  * Client-side markdown preview. Server components can use `MarkdownView`
  * directly; client sections use this (same `markdown-view` styles).
  */
-export function MarkdownPreview({
-  markdown,
-  className,
-}: {
-  markdown: string;
-  className?: string;
-}) {
+export function MarkdownPreview({ markdown, className }: { markdown: string; className?: string }) {
   const [html, setHtml] = useState('');
 
   useEffect(() => {

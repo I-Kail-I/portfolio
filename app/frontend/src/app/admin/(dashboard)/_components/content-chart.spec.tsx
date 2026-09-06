@@ -20,7 +20,9 @@ describe('buildBuckets', () => {
     const old = new Date();
     old.setMonth(old.getMonth() - 7);
     const buckets = buildBuckets([iso(old)], [iso(old)], [iso(old)]);
-    expect(buckets.every((bucket) => bucket.works === 0 && bucket.blogs === 0 && bucket.images === 0)).toBe(true);
+    expect(
+      buckets.every((bucket) => bucket.works === 0 && bucket.blogs === 0 && bucket.images === 0),
+    ).toBe(true);
   });
 
   it('returns 6 month buckets', () => {

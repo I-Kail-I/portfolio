@@ -69,7 +69,11 @@ export function TableSection() {
     ].find((entry) => entry.isError);
 
     if (failed) {
-      toast.add({ title: failed.title, description: getApiErrorMessage(failed.error), type: 'error' });
+      toast.add({
+        title: failed.title,
+        description: getApiErrorMessage(failed.error),
+        type: 'error',
+      });
     }
   }, [isWorksError, worksError, isBlogsError, blogsError, isImagesError, imagesError]);
 
@@ -90,8 +94,7 @@ export function TableSection() {
     if (!query) return blogs ?? [];
     return (blogs ?? []).filter(
       (blog) =>
-        blog.title.toLowerCase().includes(query) ||
-        blog.description.toLowerCase().includes(query),
+        blog.title.toLowerCase().includes(query) || blog.description.toLowerCase().includes(query),
     );
   }, [blogs, search]);
 

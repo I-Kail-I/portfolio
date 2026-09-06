@@ -135,7 +135,10 @@ export function WorksSection() {
                     Could not load works. Please try again.
                   </p>
                 ) : (
-                  <AdminWorksTable works={filtered} onSelect={(id) => router.push(`/admin/works/${id}`)} />
+                  <AdminWorksTable
+                    works={filtered}
+                    onSelect={(id) => router.push(`/admin/works/${id}`)}
+                  />
                 )}
               </div>
             </CardContent>

@@ -24,7 +24,11 @@ export function DeleteWorkDialog({ id, name }: DeleteWorkDialogProps) {
         toast.add({ title: 'Work deleted', description: name, type: 'success' });
       },
       onError: (error) => {
-        toast.add({ title: 'Delete failed', description: getApiErrorMessage(error), type: 'error' });
+        toast.add({
+          title: 'Delete failed',
+          description: getApiErrorMessage(error),
+          type: 'error',
+        });
       },
     });
   }

@@ -46,7 +46,14 @@ export function ContentTable<T extends { id: string }>({
         {rows.map((row) => (
           <TableRow
             key={row.id}
-            onClick={onRowClick ? () => onRowClick(row) : undefined}
+            onClick={
+              onRowClick
+                ? (event) => {
+                    if ((event.target as HTMLElement).closest('[data-stop-row-click]')) return;
+                    onRowClick(row);
+                  }
+                : undefined
+            }
             className={onRowClick ? 'cursor-pointer' : undefined}
           >
             {columns.map((column) => (
@@ -61,12 +68,19 @@ export function ContentTable<T extends { id: string }>({
   );
 }
 
-export function ContentTableSkeleton({ columns = 3, rows = 3 }: { columns?: number; rows?: number }) {
+export function ContentTableSkeleton({
+  columns = 3,
+  rows = 3,
+}: {
+  columns?: number;
+  rows?: number;
+}) {
   return (
     <Table>
       <TableHeader>
         <TableRow>
           {Array.from({ length: columns }).map((_, i) => (
+            // biome-ignore lint/suspicious/noArrayIndexKey: skeleton cells have no stable id
             <TableHead key={i}>
               <Skeleton className='h-4 w-20' />
             </TableHead>
@@ -75,8 +89,10 @@ export function ContentTableSkeleton({ columns = 3, rows = 3 }: { columns?: numb
       </TableHeader>
       <TableBody>
         {Array.from({ length: rows }).map((_, i) => (
+          // biome-ignore lint/suspicious/noArrayIndexKey: skeleton rows have no stable id
           <TableRow key={i}>
             {Array.from({ length: columns }).map((_, j) => (
+              // biome-ignore lint/suspicious/noArrayIndexKey: skeleton cells have no stable id
               <TableCell key={j}>
                 <Skeleton className='h-4 w-32' />
               </TableCell>

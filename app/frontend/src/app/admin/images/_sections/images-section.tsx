@@ -70,7 +70,11 @@ export function ImagesSection() {
         toast.add({ title: 'Image uploaded', description: image.file_name, type: 'success' });
       },
       onError: (error) => {
-        toast.add({ title: 'Upload failed', description: getApiErrorMessage(error), type: 'error' });
+        toast.add({
+          title: 'Upload failed',
+          description: getApiErrorMessage(error),
+          type: 'error',
+        });
       },
     });
   }

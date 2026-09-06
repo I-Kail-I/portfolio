@@ -19,7 +19,9 @@ export function ChartsSection() {
       <Card>
         <CardHeader>
           <CardTitle>Content over time</CardTitle>
-          <CardDescription>Works, blogs and images created per month, last 6 months.</CardDescription>
+          <CardDescription>
+            Works, blogs and images created per month, last 6 months.
+          </CardDescription>
         </CardHeader>
         <CardContent>
           {isLoading ? (

@@ -16,9 +16,7 @@ export function AccountCard({ name, email, memberSince }: AccountCardProps) {
       </CardHeader>
       <CardContent className='space-y-1 text-sm'>
         <p className='text-muted-foreground'>{email ?? '–'}</p>
-        <p className='text-muted-foreground'>
-          {memberSince ? `Member since ${memberSince}` : '–'}
-        </p>
+        <p className='text-muted-foreground'>{memberSince ? `Member since ${memberSince}` : '–'}</p>
       </CardContent>
     </Card>
   );

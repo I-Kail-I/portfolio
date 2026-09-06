@@ -16,7 +16,9 @@ const WORK_COLUMNS: Column<WorkType>[] = [
   {
     header: 'Selected',
     cell: (work) =>
-      work.is_selected ? <StarIcon className='size-4 text-[#f5bd22]' aria-label='Selected' /> : null,
+      work.is_selected ? (
+        <StarIcon className='size-4 text-[#f5bd22]' aria-label='Selected' />
+      ) : null,
   },
 ];
 

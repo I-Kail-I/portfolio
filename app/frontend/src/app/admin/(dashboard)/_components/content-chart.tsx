@@ -58,7 +58,10 @@ type ContentChartProps = {
 };
 
 export function ContentChart({ worksDates, blogDates, imageDates }: ContentChartProps) {
-  const data = useMemo(() => buildBuckets(worksDates, blogDates, imageDates), [worksDates, blogDates, imageDates]);
+  const data = useMemo(
+    () => buildBuckets(worksDates, blogDates, imageDates),
+    [worksDates, blogDates, imageDates],
+  );
 
   return (
     <ChartContainer config={CHART_CONFIG} className='aspect-auto h-64'>

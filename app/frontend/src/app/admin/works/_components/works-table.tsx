@@ -1,5 +1,9 @@
 import { StarIcon } from 'lucide-react';
-import { ContentTable, ContentTableSkeleton, type Column } from '../../(dashboard)/_components/content-table';
+import {
+  ContentTable,
+  ContentTableSkeleton,
+  type Column,
+} from '../../(dashboard)/_components/content-table';
 import type { AdminWork } from '../works.dto';
 import { DeleteWorkDialog } from './delete-work-dialog';
 
@@ -21,7 +25,9 @@ const WORKS_COLUMNS: Column<AdminWork>[] = [
   {
     header: 'Selected',
     cell: (work) =>
-      work.is_selected ? <StarIcon className='size-4 text-[#f5bd22]' aria-label='Selected' /> : null,
+      work.is_selected ? (
+        <StarIcon className='size-4 text-[#f5bd22]' aria-label='Selected' />
+      ) : null,
   },
   {
     header: 'Created',
@@ -39,7 +45,7 @@ const WORKS_COLUMNS: Column<AdminWork>[] = [
     header: 'Actions',
     className: 'text-right',
     cell: (work) => (
-      <span className='flex justify-end gap-1' onClick={(event) => event.stopPropagation()}>
+      <span className='flex justify-end gap-1' data-stop-row-click>
         <DeleteWorkDialog id={work.id} name={work.name} />
       </span>
     ),
