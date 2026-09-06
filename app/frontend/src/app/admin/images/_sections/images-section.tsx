@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Image from 'next/image';
 import { isAxiosError } from 'axios';
 import { Reveal } from '@/components/reveal';
 import { Button } from '@/components/ui/button';
@@ -15,7 +16,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { Spinner } from '@/components/ui/spinner';
 import { toast } from '@/components/ui/toast';
-import type { Image } from '../images.dto';
+import type { Image as UploadedImage } from '../images.dto';
 import { useUploadImage } from '../_hooks/hook.client';
 
 const ACCEPTED_TYPES = ['image/jpeg', 'image/png', 'image/webp'];
@@ -25,7 +26,7 @@ export function ImagesSection() {
   const { mutate, isPending } = useUploadImage();
   const [file, setFile] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
-  const [uploaded, setUploaded] = useState<Image | null>(null);
+  const [uploaded, setUploaded] = useState<UploadedImage | null>(null);
 
   function onFileChange(event: React.ChangeEvent<HTMLInputElement>) {
     const selected = event.target.files?.[0] ?? null;
@@ -69,12 +70,11 @@ export function ImagesSection() {
         toast.add({ title: 'Image uploaded', description: image.file_name, type: 'success' });
       },
       onError: (error) => {
-        const msg =
-          isAxiosError<{ message?: string | string[] }>(error)
-            ? [error.response?.data?.message].flat().filter(Boolean).join(', ') || error.message
-            : error instanceof Error
-              ? error.message
-              : 'Unknown error';
+        const msg = isAxiosError<{ message?: string | string[] }>(error)
+          ? [error.response?.data?.message].flat().filter(Boolean).join(', ') || error.message
+          : error instanceof Error
+            ? error.message
+            : 'Unknown error';
         toast.add({ title: 'Upload failed', description: msg, type: 'error' });
       },
     });
@@ -109,9 +109,12 @@ export function ImagesSection() {
                 />
 
                 {preview && (
-                  <img
+                  <Image
                     src={preview}
-                    alt='Selected image preview'
+                    alt='Selected preview'
+                    width={640}
+                    height={360}
+                    unoptimized
                     className='max-h-60 w-full rounded-3xl object-cover'
                   />
                 )}

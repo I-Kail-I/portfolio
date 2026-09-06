@@ -45,8 +45,6 @@ describe('LoginResponseSchema', () => {
   });
 
   it('rejects bad email', () => {
-    expect(() =>
-      LoginResponseSchema.parse({ ...validResponse, email: 'bad' }),
-    ).toThrow();
+    expect(() => LoginResponseSchema.parse({ ...validResponse, email: 'bad' })).toThrow();
   });
 });

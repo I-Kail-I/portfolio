@@ -10,7 +10,8 @@ describe('TextAnimations', () => {
 
   it('splits words into spans', () => {
     const { container } = render(<TextAnimations text='hello world' />);
-    const labelled = container.querySelector('[aria-label="hello world"]')!;
+    const labelled = container.querySelector('[aria-label="hello world"]') as HTMLElement;
+    expect(labelled).toBeInTheDocument();
     expect(labelled.textContent).toContain('hello');
     expect(labelled.textContent).toContain('world');
     expect(labelled.querySelectorAll(':scope > span')).toHaveLength(2);
@@ -18,7 +19,8 @@ describe('TextAnimations', () => {
 
   it('handles single word without trailing space', () => {
     const { container } = render(<TextAnimations text='solo' />);
-    const labelled = container.querySelector('[aria-label="solo"]')!;
+    const labelled = container.querySelector('[aria-label="solo"]') as HTMLElement;
+    expect(labelled).toBeInTheDocument();
     expect(labelled.querySelectorAll(':scope > span')).toHaveLength(1);
     expect(labelled.textContent).toBe('solo');
   });

@@ -27,7 +27,8 @@ describe('HashScroll', () => {
   it('scrolls to hashed element', async () => {
     const scrollIntoView = mock(() => {});
     document.body.innerHTML = '<div id="target">hi</div>';
-    const el = document.getElementById('target')!;
+    const el = document.getElementById('target') as HTMLElement;
+    expect(el).toBeInTheDocument();
     el.scrollIntoView = scrollIntoView as unknown as typeof el.scrollIntoView;
     window.location.hash = '#target';
 
