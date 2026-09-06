@@ -1,5 +1,11 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { deleteAdminWork, fetchAdminWork, fetchAdminWorks, updateAdminWork } from './hook';
+import {
+  createAdminWork,
+  deleteAdminWork,
+  fetchAdminWork,
+  fetchAdminWorks,
+  updateAdminWork,
+} from './hook';
 
 export function useAdminWorks() {
   return useQuery({
@@ -36,6 +42,18 @@ export function useUpdateAdminWork() {
   return useMutation({
     mutationKey: ['admin-works-update'],
     mutationFn: updateAdminWork,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['admin-works'] });
+    },
+  });
+}
+
+export function useCreateAdminWork() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationKey: ['admin-works-create'],
+    mutationFn: createAdminWork,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['admin-works'] });
     },

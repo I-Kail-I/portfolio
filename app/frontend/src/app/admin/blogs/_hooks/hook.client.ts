@@ -1,5 +1,11 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { deleteAdminBlog, fetchAdminBlog, fetchAdminBlogs, updateAdminBlog } from './hook';
+import {
+  createAdminBlog,
+  deleteAdminBlog,
+  fetchAdminBlog,
+  fetchAdminBlogs,
+  updateAdminBlog,
+} from './hook';
 
 export function useAdminBlogs() {
   return useQuery({
@@ -36,6 +42,18 @@ export function useUpdateAdminBlog() {
   return useMutation({
     mutationKey: ['admin-blogs-update'],
     mutationFn: updateAdminBlog,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['admin-blogs'] });
+    },
+  });
+}
+
+export function useCreateAdminBlog() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationKey: ['admin-blogs-create'],
+    mutationFn: createAdminBlog,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['admin-blogs'] });
     },

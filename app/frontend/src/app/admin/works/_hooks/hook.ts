@@ -35,3 +35,9 @@ export async function updateAdminWork({
 
   return AdminWorkSchema.parse(response.data);
 }
+
+export async function createAdminWork(data: UpdateAdminWork): Promise<AdminWork> {
+  const response = await axiosInstance.post('/work', data);
+
+  return AdminWorkSchema.parse(response.data);
+}

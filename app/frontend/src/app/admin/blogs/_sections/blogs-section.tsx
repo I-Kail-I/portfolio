@@ -1,8 +1,10 @@
 'use client';
 
 import { useEffect, useMemo } from 'react';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
+import { PlusIcon } from 'lucide-react';
 import { Reveal } from '@/components/reveal';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -67,11 +69,17 @@ export function BlogsSection() {
     <div className='min-h-screen'>
       <div className='container mx-auto py-10'>
         <Reveal>
-          <div>
-            <h1 className='font-semibold text-4xl sm:text-5xl'>Blogs</h1>
-            <p className='mt-2 text-lg text-muted-foreground'>
-              {isLoading ? 'All blog entries.' : `${total} entries.`}
-            </p>
+          <div className='flex flex-wrap items-center justify-between gap-3'>
+            <div>
+              <h1 className='font-semibold text-4xl sm:text-5xl'>Blogs</h1>
+              <p className='mt-2 text-lg text-muted-foreground'>
+                {isLoading ? 'All blog entries.' : `${total} entries.`}
+              </p>
+            </div>
+            <Button render={<Link href='/admin/blogs/new' />}>
+              <PlusIcon />
+              New blog
+            </Button>
           </div>
         </Reveal>
 

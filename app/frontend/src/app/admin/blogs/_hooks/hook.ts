@@ -35,3 +35,9 @@ export async function updateAdminBlog({
 
   return AdminBlogSchema.parse(response.data);
 }
+
+export async function createAdminBlog(data: UpdateAdminBlog): Promise<AdminBlog> {
+  const response = await axiosInstance.post('/blog', data);
+
+  return AdminBlogSchema.parse(response.data);
+}

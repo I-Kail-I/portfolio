@@ -1,9 +1,9 @@
 'use client';
 
-import type { ReactNode } from 'react';
 import Image from 'next/image';
 import { Controller, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { Field } from '@/components/field';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { ReadmeEditor } from '@/components/readme-editor';
@@ -12,27 +12,6 @@ import { toast } from '@/components/ui/toast';
 import { getApiErrorMessage } from '@/lib/errors';
 import { UpdateAdminBlogSchema, type AdminBlog, type UpdateAdminBlog } from '../../blogs.dto';
 import { useUpdateAdminBlog } from '../../_hooks/hook.client';
-
-function Field({
-  label,
-  hint,
-  error,
-  children,
-}: {
-  label: string;
-  hint: string;
-  error?: string;
-  children: ReactNode;
-}) {
-  return (
-    <div className='space-y-1'>
-      <p className='font-medium text-sm'>{label}</p>
-      {children}
-      <p className='text-muted-foreground text-xs'>{hint}</p>
-      {error && <p className='text-destructive text-xs'>{error}</p>}
-    </div>
-  );
-}
 
 type BlogEditFormProps = {
   blog: AdminBlog;
