@@ -39,6 +39,8 @@ export function AdminSidebar() {
   const { data: me } = useMe();
   const { mutate: doLogout, isPending: isLoggingOut } = useLogout();
 
+  const isActive = (href: string) => pathname === href;
+
   function onLogout() {
     doLogout(undefined, {
       onSuccess: () => {
@@ -72,7 +74,7 @@ export function AdminSidebar() {
                     render={
                       <Link href={item.href}>
                         <item.icon />
-                        <span>{item.label}</span>
+                        <span className={isActive(item.href) ? 'text-violet-400' : ''}>{item.label}</span>
                       </Link>
                     }
                   />

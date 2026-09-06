@@ -10,3 +10,9 @@ export const MeSchema = z.object({
 });
 
 export type Me = z.infer<typeof MeSchema>;
+
+export const HealthSchema = z.object({
+  status: z.string(),
+});
+
+export type Health = z.infer<typeof HealthSchema>;

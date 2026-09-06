@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 import Image from 'next/image';
-import { isAxiosError } from 'axios';
 import { Reveal } from '@/components/reveal';
 import { Button } from '@/components/ui/button';
 import {
@@ -16,6 +15,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { Spinner } from '@/components/ui/spinner';
 import { toast } from '@/components/ui/toast';
+import { getApiErrorMessage } from '@/lib/errors';
 import type { Image as UploadedImage } from '../images.dto';
 import { useUploadImage } from '../_hooks/hook.client';
 
@@ -70,12 +70,7 @@ export function ImagesSection() {
         toast.add({ title: 'Image uploaded', description: image.file_name, type: 'success' });
       },
       onError: (error) => {
-        const msg = isAxiosError<{ message?: string | string[] }>(error)
-          ? [error.response?.data?.message].flat().filter(Boolean).join(', ') || error.message
-          : error instanceof Error
-            ? error.message
-            : 'Unknown error';
-        toast.add({ title: 'Upload failed', description: msg, type: 'error' });
+        toast.add({ title: 'Upload failed', description: getApiErrorMessage(error), type: 'error' });
       },
     });
   }
