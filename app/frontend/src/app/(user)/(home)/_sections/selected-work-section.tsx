@@ -47,7 +47,7 @@ export function SelectedWorkSection() {
                   title={card.name ?? 'title'}
                   link={`/work/${card.name.toLowerCase().split(' ').join('-')}`}
                   badge={card.badge}
-                  imageUrl={card.image_url}
+                  imageUrl='https://www.netguru.com/hs-fs/hubfs/Businesswoman%20pointing%20at%20laptop%20with%20coworkers%20at%20desk%20in%20creative%20office-2.jpeg?length=690'
                   hoverText={card.hover_text}
                 />
               </Reveal>
