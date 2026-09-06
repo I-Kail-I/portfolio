@@ -1,4 +1,7 @@
 {
+  "compilerOptions": {
+    "jsx": "react"
+  },
   "references": [{ "path": "./app/frontend" }, { "path": "./app/backend" }],
   "files": [],
   "include": [

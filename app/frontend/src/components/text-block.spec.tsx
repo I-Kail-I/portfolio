@@ -5,7 +5,11 @@ import { TextBlock } from './text-block';
 describe('TextBlock', () => {
   it('renders title and description', () => {
     render(
-      <TextBlock text={{ title: 'T', description: 'D' }} index={0} onActive={mock(() => {})} />,
+      <TextBlock
+        text={{ id: 'test-1', title: 'T', description: 'D' }}
+        index={0}
+        onActive={mock(() => {})}
+      />,
     );
     expect(screen.getByRole('heading')).toHaveTextContent('T');
     expect(screen.getByText('D')).toBeInTheDocument();
@@ -14,7 +18,7 @@ describe('TextBlock', () => {
   it('renders different text per index', () => {
     render(
       <TextBlock
-        text={{ title: 'Second', description: 'Desc two' }}
+        text={{ id: 'test-2', title: 'Second', description: 'Desc two' }}
         index={1}
         onActive={mock(() => {})}
       />,

@@ -11,7 +11,7 @@
       "@/*": ["./src/*"]
     },
     "resolveJsonModule": true,
-    "types": ["@testing-library/jest-dom", "bun"],
+    "types": ["@testing-library/jest-dom", "bun-types"],
     "allowJs": true,
     "strict": true,
     "esModuleInterop": true,
