@@ -10,6 +10,8 @@ import { AuthModule } from './modules/auth/auth.module';
 import { HealthController } from './modules/health/health.controller';
 import { isProduction } from './utils/check-env';
 import { FileUploadModule } from './modules/file-upload/file-upload.module';
+import { ImageModule } from './modules/image/image.module';
+import { BlogModule } from './modules/blog/blog.module';
 import { WorkModule } from './modules/work/work.module';
 import { SelectedWorkModule } from './modules/work/selected-work/selected-work.module';
 
@@ -50,6 +52,8 @@ import { SelectedWorkModule } from './modules/work/selected-work/selected-work.m
     AuthModule,
     RedisModule,
     FileUploadModule,
+    ImageModule,
+    BlogModule,
     // SelectedWorkModule before WorkModule: else GET /work/:id swallows "selected"
     SelectedWorkModule,
     WorkModule,

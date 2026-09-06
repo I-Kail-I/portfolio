@@ -79,6 +79,8 @@ model Blog {
   title       String
   content     String
   description String
+  badge       String[]
+  hover_text  String
   image_url   String
   image_id    String
   created_at  DateTime @default(now())
