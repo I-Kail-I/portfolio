@@ -74,3 +74,16 @@ model Image {
   @@schema("public")
 }
 
+model Blog {
+  id          String   @id @default(uuid())
+  title       String
+  content     String
+  description String
+  image_url   String
+  image_id    String
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
+
+  @@map("blogs")
+  @@schema("public")
+}
