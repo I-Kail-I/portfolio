@@ -15,6 +15,7 @@ import { Input } from '@/components/ui/input';
 import { Spinner } from '@/components/ui/spinner';
 import { toast } from '@/components/ui/toast';
 import { getApiErrorMessage } from '@/lib/errors';
+import { parseBadges } from '@/lib/badges';
 import { useUploadImage } from '../../../images/_hooks/hook.client';
 import { useCreateAdminBlog } from '../../_hooks/hook.client';
 
@@ -153,21 +154,14 @@ export function CreateBlogSection() {
 
                 <Field
                   label='Badges'
-                  hint='Tags above the title, comma separated.'
+                  hint='Tags above the title, comma or space separated.'
                   error={errors.badge?.message}
                 >
                   <Input
                     placeholder='Next.js, Postgres'
                     value={badges.join(', ')}
                     onChange={(event) =>
-                      setValue(
-                        'badge',
-                        event.target.value
-                          .split(',')
-                          .map((badge) => badge.trim())
-                          .filter(Boolean),
-                        { shouldValidate: true },
-                      )
+                      setValue('badge', parseBadges(event.target.value), { shouldValidate: true })
                     }
                     disabled={isPending}
                   />

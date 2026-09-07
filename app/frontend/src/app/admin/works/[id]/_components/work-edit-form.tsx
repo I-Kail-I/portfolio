@@ -10,6 +10,7 @@ import { ReadmeEditor } from '@/components/readme-editor';
 import { Spinner } from '@/components/ui/spinner';
 import { toast } from '@/components/ui/toast';
 import { getApiErrorMessage } from '@/lib/errors';
+import { parseBadges } from '@/lib/badges';
 import { imageFileUrl } from '@/lib/images';
 import { UpdateAdminWorkSchema, type AdminWork, type UpdateAdminWork } from '../../works.dto';
 import { useUpdateAdminWork } from '../../_hooks/hook.client';
@@ -124,21 +125,14 @@ export function WorkEditForm({ work, onDone }: WorkEditFormProps) {
 
       <Field
         label='Badges'
-        hint='Tags above the title, comma separated.'
+        hint='Tags above the title, comma or space separated.'
         error={errors.badge?.message}
       >
         <Input
           placeholder='Next.js, Postgres'
           value={badges.join(', ')}
           onChange={(event) =>
-            setValue(
-              'badge',
-              event.target.value
-                .split(',')
-                .map((badge) => badge.trim())
-                .filter(Boolean),
-              { shouldValidate: true },
-            )
+            setValue('badge', parseBadges(event.target.value), { shouldValidate: true })
           }
           disabled={isPending}
         />
