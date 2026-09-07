@@ -14,6 +14,7 @@ import { ImageModule } from './modules/image/image.module';
 import { BlogModule } from './modules/blog/blog.module';
 import { WorkModule } from './modules/work/work.module';
 import { SelectedWorkModule } from './modules/work/selected-work/selected-work.module';
+import { BullmqModule } from './lib/bullmq/bullmq.module';
 
 @Module({
   imports: [
@@ -57,6 +58,7 @@ import { SelectedWorkModule } from './modules/work/selected-work/selected-work.m
     // SelectedWorkModule before WorkModule: else GET /work/:id swallows "selected"
     SelectedWorkModule,
     WorkModule,
+    BullmqModule,
   ],
   providers: [
     {
