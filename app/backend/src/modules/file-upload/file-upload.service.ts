@@ -12,11 +12,14 @@ export class FileUploadService {
   ) {}
 
   async saveImage(file: MulterFile) {
+    // Admin uploads are trusted: mark active so work.create can connect.
+    // The uploader is session-guarded; anonymous users never reach here.
     const image = await this.prisma.image.create({
       data: {
         file_path: file.path,
         file_name: file.filename,
         mime_type: file.mimetype,
+        status: 'active',
         created_at: new Date(),
       },
     });

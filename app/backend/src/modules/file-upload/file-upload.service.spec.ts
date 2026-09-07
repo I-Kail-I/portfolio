@@ -82,6 +82,7 @@ describe('FileUploadService', () => {
           file_path: file.path,
           file_name: file.filename,
           mime_type: file.mimetype,
+          status: 'active',
         }),
       });
       expect(asMock(mockRedis.del)).toHaveBeenCalledWith(ALL_IMAGE_CACHE_KEY);
