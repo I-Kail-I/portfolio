@@ -22,7 +22,7 @@ function AdminLayout({ children }: { children: React.ReactNode }) {
         <header className='flex items-center gap-2 p-2'>
           <SidebarTrigger />
         </header>
-        {children}
+        <div className='px-3'>{children}</div>
       </SidebarInset>
     </SidebarProvider>
   );

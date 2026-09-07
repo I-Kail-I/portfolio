@@ -10,6 +10,7 @@ describe('ImageController', () => {
   const mockImageService = {
     findAll: jest.fn(),
     findOne: jest.fn(),
+    remove: jest.fn(),
   };
 
   function createImage(): ImageResponseDto {
@@ -59,6 +60,18 @@ describe('ImageController', () => {
 
       expect(result).toEqual(expected);
       expect(mockImageService.findOne).toHaveBeenCalledWith('1');
+    });
+  });
+
+  describe('remove', () => {
+    it('should call imageService.remove with the id and return the result', async () => {
+      const expected = createImage();
+      mockImageService.remove.mockResolvedValue(expected);
+
+      const result = await controller.remove('1');
+
+      expect(result).toEqual(expected);
+      expect(mockImageService.remove).toHaveBeenCalledWith('1');
     });
   });
 });

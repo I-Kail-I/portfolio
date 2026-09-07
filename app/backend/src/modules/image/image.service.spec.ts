@@ -16,6 +16,7 @@ const mockPrisma = {
   image: {
     findMany: jest.fn(),
     findUniqueOrThrow: jest.fn(),
+    delete: jest.fn(),
   },
 };
 
@@ -137,6 +138,27 @@ describe('ImageService', () => {
       asMock(mockPrisma.image.findUniqueOrThrow).mockRejectedValue(new Error('Not found'));
 
       await expect(service.findOne('missing-id')).rejects.toThrow('Not found');
+    });
+  });
+
+  describe('remove', () => {
+    it('should delete the image and invalidate the cache', async () => {
+      const image = createMockImage();
+      asMock(mockPrisma.image.findUniqueOrThrow).mockResolvedValue(image);
+      asMock(mockPrisma.image.delete).mockResolvedValue(image);
+
+      const result = await service.remove('1');
+
+      expect(result).toEqual(image);
+      expect(asMock(mockPrisma.image.delete)).toHaveBeenCalledWith({ where: { id: '1' } });
+      expect(asMock(mockRedis.del)).toHaveBeenCalledWith(imageCacheKey('1'), ALL_IMAGE_CACHE_KEY);
+    });
+
+    it('should propagate when the image is not found', async () => {
+      asMock(mockPrisma.image.findUniqueOrThrow).mockRejectedValue(new Error('Not found'));
+
+      await expect(service.remove('missing-id')).rejects.toThrow('Not found');
+      expect(asMock(mockPrisma.image.delete)).not.toHaveBeenCalled();
     });
   });
 });

@@ -80,72 +80,70 @@ export function ImagesSection() {
   }
 
   return (
-    <div className='min-h-screen'>
-      <div className='container mx-auto py-10'>
-        <Reveal>
-          <div>
-            <h1 className='font-semibold text-4xl sm:text-5xl'>Images</h1>
-            <p className='mt-2 text-lg text-muted-foreground'>
-              Upload JPEG, PNG or WebP files up to 5MB.
-            </p>
-          </div>
-        </Reveal>
+    <>
+      <Reveal>
+        <div>
+          <h1 className='font-semibold text-4xl sm:text-5xl'>Images</h1>
+          <p className='mt-2 text-lg text-muted-foreground'>
+            Upload JPEG, PNG or WebP files up to 5MB.
+          </p>
+        </div>
+      </Reveal>
 
-        <Reveal delay={0.05} className='mt-10'>
-          <Card className='mx-auto w-full max-w-md'>
-            <CardHeader>
-              <CardTitle>Upload image</CardTitle>
-              <CardDescription>New uploads start with pending status.</CardDescription>
-            </CardHeader>
+      <Reveal delay={0.05} className='mt-10'>
+        <Card className='mx-auto w-full max-w-md'>
+          <CardHeader>
+            <CardTitle>Upload image</CardTitle>
+            <CardDescription>New uploads start with pending status.</CardDescription>
+          </CardHeader>
 
-            <form onSubmit={onSubmit}>
-              <CardContent className='space-y-5'>
-                <Input
-                  type='file'
-                  accept='image/jpeg,image/png,image/webp'
-                  onChange={onFileChange}
-                  disabled={isPending}
+          <form onSubmit={onSubmit}>
+            <CardContent className='space-y-5'>
+              <Input
+                type='file'
+                accept='image/jpeg,image/png,image/webp'
+                onChange={onFileChange}
+                disabled={isPending}
+              />
+
+              {preview && (
+                <Image
+                  src={preview}
+                  alt='Selected preview'
+                  width={640}
+                  height={360}
+                  unoptimized
+                  className='max-h-60 w-full rounded-3xl object-cover'
                 />
+              )}
 
-                {preview && (
-                  <Image
-                    src={preview}
-                    alt='Selected preview'
-                    width={640}
-                    height={360}
-                    unoptimized
-                    className='max-h-60 w-full rounded-3xl object-cover'
-                  />
-                )}
+              {uploaded && (
+                <div className='space-y-1 text-sm'>
+                  <p>
+                    <span className='text-muted-foreground'>ID: </span>
+                    {uploaded.id}
+                  </p>
+                  <p>
+                    <span className='text-muted-foreground'>File: </span>
+                    {uploaded.file_name}
+                  </p>
+                  <p>
+                    <span className='text-muted-foreground'>Status: </span>
+                    {uploaded.status}
+                  </p>
+                </div>
+              )}
+            </CardContent>
 
-                {uploaded && (
-                  <div className='space-y-1 text-sm'>
-                    <p>
-                      <span className='text-muted-foreground'>ID: </span>
-                      {uploaded.id}
-                    </p>
-                    <p>
-                      <span className='text-muted-foreground'>File: </span>
-                      {uploaded.file_name}
-                    </p>
-                    <p>
-                      <span className='text-muted-foreground'>Status: </span>
-                      {uploaded.status}
-                    </p>
-                  </div>
-                )}
-              </CardContent>
-
-              <CardFooter className='mt-6'>
-                <Button type='submit' className='w-full' disabled={!file || isPending}>
-                  {isPending && <Spinner />}
-                  {isPending ? 'Uploading…' : 'Upload'}
-                </Button>
-              </CardFooter>
-            </form>
-          </Card>
-        </Reveal>
-      </div>
-    </div>
+            <CardFooter className='mt-6'>
+              <Button type='submit' className='w-full' disabled={!file || isPending}>
+                {isPending && <Spinner />}
+                {isPending ? 'Uploading…' : 'Upload'}
+              </Button>
+            </CardFooter>
+          </form>
+        </Card>
+      </Reveal>
+    </>
   );
 }

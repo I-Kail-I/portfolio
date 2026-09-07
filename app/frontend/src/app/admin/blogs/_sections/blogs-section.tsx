@@ -76,7 +76,7 @@ export function BlogsSection() {
                 {isLoading ? 'All blog entries.' : `${total} entries.`}
               </p>
             </div>
-            <Button render={<Link href='/admin/blogs/new' />}>
+            <Button nativeButton={false} render={<Link href='/admin/blogs/new' />}>
               <PlusIcon />
               New blog
             </Button>

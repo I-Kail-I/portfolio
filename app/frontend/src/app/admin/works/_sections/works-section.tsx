@@ -86,7 +86,7 @@ export function WorksSection() {
                 {isLoading ? 'All portfolio entries.' : `${total} entries.`}
               </p>
             </div>
-            <Button render={<Link href='/admin/works/new' />}>
+            <Button nativeButton={false} render={<Link href='/admin/works/new' />}>
               <PlusIcon />
               New work
             </Button>

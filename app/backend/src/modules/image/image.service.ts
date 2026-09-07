@@ -40,4 +40,11 @@ export class ImageService {
       .catch(() => undefined);
     return image;
   }
+
+  async remove(id: string) {
+    await this.prisma.image.findUniqueOrThrow({ where: { id } });
+    const removed = await this.prisma.image.delete({ where: { id } });
+    await this.redis.del(imageCacheKey(id), ALL_IMAGE_CACHE_KEY).catch(() => undefined);
+    return removed;
+  }
 }
