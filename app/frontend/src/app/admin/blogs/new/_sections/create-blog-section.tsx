@@ -41,8 +41,7 @@ export function CreateBlogSection() {
     register,
     control,
     handleSubmit,
-    setValue,
-    watch,
+    setError,
     formState: { errors },
   } = useForm<CreateBlog>({
     resolver: zodResolver(CreateBlogSchema),
@@ -55,9 +54,14 @@ export function CreateBlogSection() {
     },
   });
 
-  const badges = watch('badge');
+  const [rawBadges, setRawBadges] = useState('');
 
   function onSubmit(data: CreateBlog) {
+    const badge = parseBadges(rawBadges);
+    if (badge.length === 0) {
+      setError('badge', { message: 'Add at least one badge.' });
+      return;
+    }
     if (!file) {
       setFileError('Hero image is required.');
       return;
@@ -66,7 +70,7 @@ export function CreateBlogSection() {
     upload(file, {
       onSuccess: (image) => {
         create(
-          { ...data, image_url: image.file_path, image_id: image.id },
+          { ...data, badge, image_url: image.file_path, image_id: image.id },
           {
             onSuccess: (blog) => {
               toast.add({ title: 'Blog created', description: blog.title, type: 'success' });
@@ -159,10 +163,8 @@ export function CreateBlogSection() {
                 >
                   <Input
                     placeholder='Next.js, Postgres'
-                    value={badges.join(', ')}
-                    onChange={(event) =>
-                      setValue('badge', parseBadges(event.target.value), { shouldValidate: true })
-                    }
+                    value={rawBadges}
+                    onChange={(event) => setRawBadges(event.target.value)}
                     disabled={isPending}
                   />
                 </Field>

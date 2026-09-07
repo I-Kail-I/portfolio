@@ -43,6 +43,7 @@ export function CreateWorkSection() {
     control,
     handleSubmit,
     setValue,
+    setError,
     watch,
     formState: { errors },
   } = useForm<CreateWork>({
@@ -58,9 +59,14 @@ export function CreateWorkSection() {
   });
 
   const isSelected = watch('is_selected');
-  const badges = watch('badge');
+  const [rawBadges, setRawBadges] = useState('');
 
   function onSubmit(data: CreateWork) {
+    const badge = parseBadges(rawBadges);
+    if (badge.length === 0) {
+      setError('badge', { message: 'Add at least one badge.' });
+      return;
+    }
     if (!file) {
       setFileError('Hero image is required.');
       return;
@@ -69,7 +75,7 @@ export function CreateWorkSection() {
     upload(file, {
       onSuccess: (image) => {
         create(
-          { ...data, image_url: image.file_path, image_id: image.id },
+          { ...data, badge, image_url: image.file_path, image_id: image.id },
           {
             onSuccess: (work) => {
               toast.add({ title: 'Work created', description: work.name, type: 'success' });
@@ -162,10 +168,8 @@ export function CreateWorkSection() {
                 >
                   <Input
                     placeholder='Next.js, Postgres'
-                    value={badges.join(', ')}
-                    onChange={(event) =>
-                      setValue('badge', parseBadges(event.target.value), { shouldValidate: true })
-                    }
+                    value={rawBadges}
+                    onChange={(event) => setRawBadges(event.target.value)}
                     disabled={isPending}
                   />
                 </Field>

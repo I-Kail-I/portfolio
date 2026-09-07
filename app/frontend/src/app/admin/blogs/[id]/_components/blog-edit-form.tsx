@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import Image from 'next/image';
 import { Controller, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -27,7 +28,7 @@ export function BlogEditForm({ blog, onDone }: BlogEditFormProps) {
     register,
     control,
     handleSubmit,
-    setValue,
+    setError,
     watch,
     formState: { errors },
   } = useForm<UpdateAdminBlog>({
@@ -43,12 +44,17 @@ export function BlogEditForm({ blog, onDone }: BlogEditFormProps) {
     },
   });
 
-  const badges = watch('badge');
+  const [rawBadges, setRawBadges] = useState(blog.badge.join(', '));
   const imageId = watch('image_id');
 
   function onSubmit(data: UpdateAdminBlog) {
+    const badge = parseBadges(rawBadges);
+    if (badge.length === 0) {
+      setError('badge', { message: 'Add at least one badge.' });
+      return;
+    }
     mutate(
-      { id: blog.id, data },
+      { id: blog.id, data: { ...data, badge } },
       {
         onSuccess: () => {
           toast.add({ title: 'Blog updated', description: data.title, type: 'success' });
@@ -128,10 +134,8 @@ export function BlogEditForm({ blog, onDone }: BlogEditFormProps) {
       >
         <Input
           placeholder='Next.js, Postgres'
-          value={badges.join(', ')}
-          onChange={(event) =>
-            setValue('badge', parseBadges(event.target.value), { shouldValidate: true })
-          }
+          value={rawBadges}
+          onChange={(event) => setRawBadges(event.target.value)}
           disabled={isPending}
         />
       </Field>

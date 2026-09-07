@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import Image from 'next/image';
 import { Controller, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -28,6 +29,7 @@ export function WorkEditForm({ work, onDone }: WorkEditFormProps) {
     control,
     handleSubmit,
     setValue,
+    setError,
     watch,
     formState: { errors },
   } = useForm<UpdateAdminWork>({
@@ -45,12 +47,17 @@ export function WorkEditForm({ work, onDone }: WorkEditFormProps) {
   });
 
   const isSelected = watch('is_selected');
-  const badges = watch('badge');
+  const [rawBadges, setRawBadges] = useState(work.badge.join(', '));
   const imageId = watch('image_id');
 
   function onSubmit(data: UpdateAdminWork) {
+    const badge = parseBadges(rawBadges);
+    if (badge.length === 0) {
+      setError('badge', { message: 'Add at least one badge.' });
+      return;
+    }
     mutate(
-      { id: work.id, data },
+      { id: work.id, data: { ...data, badge } },
       {
         onSuccess: () => {
           toast.add({ title: 'Work updated', description: data.name, type: 'success' });
@@ -130,10 +137,8 @@ export function WorkEditForm({ work, onDone }: WorkEditFormProps) {
       >
         <Input
           placeholder='Next.js, Postgres'
-          value={badges.join(', ')}
-          onChange={(event) =>
-            setValue('badge', parseBadges(event.target.value), { shouldValidate: true })
-          }
+          value={rawBadges}
+          onChange={(event) => setRawBadges(event.target.value)}
           disabled={isPending}
         />
       </Field>
