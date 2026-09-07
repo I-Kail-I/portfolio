@@ -31,7 +31,7 @@ function renderCard() {
 describe('GalleryCard', () => {
   it('renders thumbnail, name and status', () => {
     renderCard();
-    expect(screen.getByAltText('img.png')).toHaveAttribute('src', '/public/img_1');
+    expect(screen.getByAltText('img.png')).toHaveAttribute('src', '/api/file-upload/img_1');
     expect(screen.getByText('img.png')).toBeInTheDocument();
     expect(screen.getByText(/active/)).toBeInTheDocument();
     expect(screen.getByLabelText('Delete img.png')).toBeInTheDocument();

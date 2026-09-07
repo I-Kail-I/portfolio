@@ -4,6 +4,9 @@ import { Skeleton } from '@/components/ui/skeleton';
 import type { Image as GalleryImage } from '../images.dto';
 import { DeleteImageDialog } from './delete-image-dialog';
 
+// Raw bytes stream (GET /file-upload/:id), not the JSON metadata endpoint.
+const API_PREFIX = process.env.NEXT_PUBLIC_API_PREFIX ?? '/api';
+
 type GalleryCardProps = {
   image: GalleryImage;
 };
@@ -13,7 +16,7 @@ export function GalleryCard({ image }: GalleryCardProps) {
     <Card className='overflow-hidden py-0'>
       <div className='relative aspect-video w-full bg-muted'>
         <Image
-          src={`/public/${image.id}`}
+          src={`${API_PREFIX}/file-upload/${image.id}`}
           alt={image.file_name}
           fill
           sizes='(max-width: 1024px) 50vw, 33vw'
