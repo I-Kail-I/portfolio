@@ -8,7 +8,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { ChevronUp } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 
-const navItems = ['Work', 'About', 'Service'];
+const NAVITEMS = ['Work', 'Blog', 'About', 'Service'];
 
 export function Navbar() {
   return (
@@ -69,7 +69,7 @@ function DesktopNavbar() {
 
         {/* Middle Section */}
         <div className='flex gap-x-10'>
-          {navItems.map((item) => {
+          {NAVITEMS.map((item) => {
             const slug = item.toLowerCase();
             const isActive = path.startsWith(`/${slug}`) || path === item;
 
@@ -167,7 +167,7 @@ function MobileNavbar() {
               transition={{ duration: 0.25, ease: 'easeInOut' }}
               className='flex flex-col px-2 pb-2'
             >
-              {['Home', ...navItems].map((item) => {
+              {['Home', ...NAVITEMS].map((item) => {
                 const isHomeItem = item === 'Home';
                 const targetHref = isHomeItem ? '/' : `/${item.toLowerCase()}`;
                 const isActive = path === targetHref;
