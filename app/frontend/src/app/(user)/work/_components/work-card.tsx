@@ -17,11 +17,10 @@ export function WorkCard({ title, description, hoverText, imageUrl, link, badge 
     <div className='group space-y-4 sm:space-y-6'>
       <Card className='relative mx-auto aspect-11/6 w-full max-w-275 gap-0 overflow-hidden rounded-xl py-0 transition-all duration-300 hover:scale-[1.01]'>
         <Link href={link} className='block h-full w-full'>
-          {/* Default image */}
           {imageUrl && (
             <Image
               alt={title}
-              src='https://www.mariajoaoabrantes.work/_next/image?url=%2Fmedia%2Fprojects%2Freach-users%2Freachusers-grid-desktop.webp&w=1920&q=75'
+              src={imageUrl}
               fill
               sizes='(max-width: 1280px) 100vw, 1100px'
               className='object-cover transition-opacity duration-500'

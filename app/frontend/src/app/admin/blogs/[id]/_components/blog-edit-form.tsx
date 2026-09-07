@@ -10,6 +10,7 @@ import { ReadmeEditor } from '@/components/readme-editor';
 import { Spinner } from '@/components/ui/spinner';
 import { toast } from '@/components/ui/toast';
 import { getApiErrorMessage } from '@/lib/errors';
+import { imageFileUrl } from '@/lib/images';
 import { UpdateAdminBlogSchema, type AdminBlog, type UpdateAdminBlog } from '../../blogs.dto';
 import { useUpdateAdminBlog } from '../../_hooks/hook.client';
 
@@ -42,7 +43,7 @@ export function BlogEditForm({ blog, onDone }: BlogEditFormProps) {
   });
 
   const badges = watch('badge');
-  const imageUrl = watch('image_url');
+  const imageId = watch('image_id');
 
   function onSubmit(data: UpdateAdminBlog) {
     mutate(
@@ -105,10 +106,10 @@ export function BlogEditForm({ blog, onDone }: BlogEditFormProps) {
         </div>
       </Field>
 
-      {imageUrl ? (
+      {imageId ? (
         <div className='relative aspect-11/6 w-full overflow-hidden rounded-xl bg-muted'>
           <Image
-            src={imageUrl}
+            src={imageFileUrl(imageId)}
             alt='Hero preview'
             fill
             sizes='(max-width: 1280px) 100vw, 1100px'

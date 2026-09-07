@@ -13,6 +13,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Skeleton } from '@/components/ui/skeleton';
 import { toast } from '@/components/ui/toast';
 import { getApiErrorMessage } from '@/lib/errors';
+import { imageFileUrl } from '@/lib/images';
 import { useAdminBlog, useDeleteAdminBlog } from '../../_hooks/hook.client';
 import { BlogEditForm } from '../_components/blog-edit-form';
 
@@ -124,9 +125,9 @@ export function BlogDetailSection({ id }: { id: string }) {
                 </CardHeader>
                 <CardContent className='space-y-6'>
                   <div className='relative aspect-11/6 w-full overflow-hidden rounded-xl bg-muted'>
-                    {blog.image_url ? (
+                    {blog.image_id ? (
                       <Image
-                        src={blog.image_url}
+                        src={imageFileUrl(blog.image_id)}
                         alt={blog.title}
                         fill
                         sizes='(max-width: 1280px) 100vw, 1100px'

@@ -5,6 +5,7 @@ import { Reveal } from '@/components/reveal';
 import { SelectWorkCard, SelectWorkCardSkeleton } from '../_components/select-work-card';
 import { useSelectedWorks } from '../_hooks/hooks.client';
 import { toast } from '@/components/ui/toast';
+import { imageFileUrl } from '@/lib/images';
 
 export function SelectedWorkSection() {
   const { data, isLoading, error, isError } = useSelectedWorks();
@@ -47,7 +48,7 @@ export function SelectedWorkSection() {
                   title={card.name ?? 'title'}
                   link={`/work/${card.name.toLowerCase().split(' ').join('-')}`}
                   badge={card.badge}
-                  imageUrl='https://www.netguru.com/hs-fs/hubfs/Businesswoman%20pointing%20at%20laptop%20with%20coworkers%20at%20desk%20in%20creative%20office-2.jpeg?length=690'
+                  imageUrl={imageFileUrl(card.image_id)}
                   hoverText={card.hover_text}
                 />
               </Reveal>

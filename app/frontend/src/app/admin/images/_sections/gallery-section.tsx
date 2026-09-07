@@ -48,7 +48,7 @@ export function GallerySection() {
             {...register('search')}
             className='sm:max-w-xs'
           />
-          <div className='grid min-h-[320px] content-start gap-4 sm:grid-cols-2 lg:grid-cols-3'>
+          <div className='grid min-h-80 content-start gap-4 sm:grid-cols-2 lg:grid-cols-3'>
             {isLoading ? (
               Array.from({ length: 6 }).map((_, i) => (
                 // biome-ignore lint/suspicious/noArrayIndexKey: skeleton cards have no stable id
