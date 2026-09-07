@@ -1,7 +1,7 @@
 import * as motion from 'motion/react-client';
 import { useInView } from 'motion/react';
 import { useEffect, useRef } from 'react';
-import { texts } from '../_sections/how-i-work-section';
+import { texts } from '../app/(user)/(home)/_sections/how-i-work-section';
 
 export function TextBlock({
   text,

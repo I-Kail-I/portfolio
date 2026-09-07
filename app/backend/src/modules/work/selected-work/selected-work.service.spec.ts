@@ -135,7 +135,7 @@ describe('SelectedWorkService', () => {
       expect(result).toEqual(work);
       expect(asMock(mockRedis.get)).toHaveBeenCalledWith(cacheKey);
       expect(asMock(mockPrisma.work.findFirstOrThrow)).toHaveBeenCalledWith({
-        where: { name },
+        where: { name, is_selected: true },
       });
       expect(asMock(mockRedis.set)).toHaveBeenCalledWith(
         cacheKey,

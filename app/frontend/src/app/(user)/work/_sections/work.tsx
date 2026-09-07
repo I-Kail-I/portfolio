@@ -3,8 +3,9 @@
 import { useEffect } from 'react';
 import { WorkCard, WorkCardSkeleton } from '../_components/work-card';
 import { Reveal } from '@/components/reveal';
-import { useWorkList } from '../_hooks/hook.client';
 import { toast } from '@/components/ui/toast';
+import { imageFileUrl } from '@/lib/images';
+import { useWorkList } from '../_hooks/hook.client';
 
 export function WorkSection() {
   const { data, isLoading, isError, error } = useWorkList();
@@ -50,7 +51,7 @@ export function WorkSection() {
                     title={work.name}
                     description={work.description}
                     hoverText={work.hover_text}
-                    imageUrl={work.image_url}
+                    imageUrl={imageFileUrl(work.image_id)}
                     link={`/work/${work.name.toLowerCase().split(' ').join('-')}`}
                     badge={work.badge}
                   />

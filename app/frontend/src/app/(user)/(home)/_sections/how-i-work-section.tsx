@@ -4,7 +4,7 @@ import * as motion from 'motion/react-client';
 import { AnimatePresence } from 'motion/react';
 import { useState } from 'react';
 import { Reveal } from '@/components/reveal';
-import { TextBlock } from '../_components/text-block';
+import { TextBlock } from '@/components/text-block';
 
 export const texts = [
   {

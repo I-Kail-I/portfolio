@@ -8,7 +8,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { ChevronUp } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 
-const navItems = ['Work', 'About', 'Service'];
+const NAVITEMS = ['Work', 'Blog', 'About', 'Service'];
 
 export function Navbar() {
   return (
@@ -50,8 +50,8 @@ function DesktopNavbar() {
     <nav className='fixed z-50 w-full'>
       <div
         className={cn(
-          'mx-auto mt-2 flex h-20 w-full items-center justify-between transition-all duration-300',
-          atTop ? 'max-w-3xl' : 'max-w-2xl rounded-full bg-black/40 px-5 backdrop-blur-2xl',
+          'mx-auto mt-4 flex h-15 w-full items-center justify-between transition-all duration-300',
+          atTop ? 'max-w-3xl' : 'max-w-2xl rounded-full bg-black/40 px-5 py-1 backdrop-blur-2xl',
         )}
       >
         {/* Left Section */}
@@ -69,9 +69,9 @@ function DesktopNavbar() {
 
         {/* Middle Section */}
         <div className='flex gap-x-10'>
-          {navItems.map((item) => {
+          {NAVITEMS.map((item) => {
             const slug = item.toLowerCase();
-            const isActive = path === `/${slug}` || path === item;
+            const isActive = path.startsWith(`/${slug}`) || path === item;
 
             return (
               <Link
@@ -167,7 +167,7 @@ function MobileNavbar() {
               transition={{ duration: 0.25, ease: 'easeInOut' }}
               className='flex flex-col px-2 pb-2'
             >
-              {['Home', ...navItems].map((item) => {
+              {['Home', ...NAVITEMS].map((item) => {
                 const isHomeItem = item === 'Home';
                 const targetHref = isHomeItem ? '/' : `/${item.toLowerCase()}`;
                 const isActive = path === targetHref;

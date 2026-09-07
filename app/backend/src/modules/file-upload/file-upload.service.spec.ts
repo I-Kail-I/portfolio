@@ -3,6 +3,8 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { describe, expect, it, beforeEach, afterEach, jest, type Mock } from 'bun:test';
 import { ImageStatus } from '@/generated/prisma/enums';
 import { PrismaService } from '@/lib/prisma/prisma.service';
+import { RedisService } from '@/lib/redis/redis.service';
+import { ALL_IMAGE_CACHE_KEY } from '../image/image.service';
 import { FileUploadService } from './file-upload.service';
 
 const asMock = <T extends (...args: any[]) => any>(fn: unknown): Mock<T> => fn as Mock<T>;
@@ -12,6 +14,10 @@ const mockPrisma = {
     create: jest.fn(),
     findUnique: jest.fn(),
   },
+};
+
+const mockRedis = {
+  del: jest.fn().mockResolvedValue(1),
 };
 
 function createMockFile(overrides = {}) {
@@ -44,7 +50,11 @@ describe('FileUploadService', () => {
     jest.clearAllMocks();
 
     const module: TestingModule = await Test.createTestingModule({
-      providers: [FileUploadService, { provide: PrismaService, useValue: mockPrisma }],
+      providers: [
+        FileUploadService,
+        { provide: PrismaService, useValue: mockPrisma },
+        { provide: RedisService, useValue: mockRedis },
+      ],
     }).compile();
 
     service = module.get<FileUploadService>(FileUploadService);
@@ -59,7 +69,7 @@ describe('FileUploadService', () => {
   });
 
   describe('saveImage', () => {
-    it('should save an image record', async () => {
+    it('should save an image record and invalidate the list cache', async () => {
       const file = createMockFile();
       const image = createMockImage();
       asMock(mockPrisma.image.create).mockResolvedValue(image);
@@ -72,8 +82,10 @@ describe('FileUploadService', () => {
           file_path: file.path,
           file_name: file.filename,
           mime_type: file.mimetype,
+          status: 'active',
         }),
       });
+      expect(asMock(mockRedis.del)).toHaveBeenCalledWith(ALL_IMAGE_CACHE_KEY);
     });
   });
 

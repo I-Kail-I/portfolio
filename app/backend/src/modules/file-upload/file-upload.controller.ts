@@ -18,10 +18,10 @@ import { imageMulterOptions, type MulterFile, UPLOAD_DIR } from './storage/image
 import { PassportSessionGuard } from '../auth/passport-session.guard';
 
 @Controller('file-upload')
-@UseGuards(PassportSessionGuard)
 export class FileUploadController {
   constructor(private readonly fileUploadService: FileUploadService) {}
 
+  @UseGuards(PassportSessionGuard)
   @ApiConsumes('multipart/form-data')
   @ApiBody({
     schema: {

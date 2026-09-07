@@ -69,8 +69,25 @@ model Image {
   status     ImageStatus @default(pending)
   created_at DateTime    @default(now())
   works      Work[]
+  blogs      Blog[]
 
   @@map("images")
   @@schema("public")
 }
 
+model Blog {
+  id          String   @id @default(uuid())
+  title       String
+  content     String
+  description String
+  badge       String[]
+  hover_text  String
+  image_url   String
+  image_id    String
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
+  image       Image    @relation(fields: [image_id], references: [id], onDelete: Cascade)
+
+  @@map("blogs")
+  @@schema("public")
+}

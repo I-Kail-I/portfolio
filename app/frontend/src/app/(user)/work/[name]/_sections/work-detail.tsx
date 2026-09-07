@@ -9,6 +9,7 @@ import { useWorkByName } from '../_hooks/hook.client';
 import { WorkMarkdown } from '../_components/work-markdown';
 import { WorkDetailSkeleton } from '../_components/work-detail-skeleton';
 import { toast } from '@/components/ui/toast';
+import { imageFileUrl } from '@/lib/images';
 
 type Props = {
   name: string;
@@ -97,9 +98,9 @@ export function WorkDetailSection({ name }: Props) {
           {/* hero image - same aspect as SelectWorkCard / WorkCard */}
           <Reveal delay={0.2} className='mt-12'>
             <div className='relative mx-auto aspect-11/6 w-full max-w-275 overflow-hidden rounded-xl bg-muted'>
-              {data.image_url ? (
+              {data.image_id ? (
                 <Image
-                  src='https://www.mariajoaoabrantes.work/_next/image?url=%2Fmedia%2Fprojects%2Freach-users%2Freachusers-grid-desktop.webp&w=1920&q=75'
+                  src={imageFileUrl(data.image_id)}
                   alt={data.name}
                   fill
                   priority

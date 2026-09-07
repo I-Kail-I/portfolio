@@ -25,7 +25,7 @@ export class CreateWorkDto {
   @ApiProperty({ example: 'upload/image.jpg' })
   @IsString()
   @IsNotEmpty()
-  @Matches(/^upload\//, { message: 'The path must start with "upload/"' })
+  @Matches(/^uploads?\//, { message: 'The path must start with "upload/"' })
   image_url!: string;
 
   @ApiProperty({ example: '01a05b3d-a607-775f-b3cc-ecc76e601d98' })

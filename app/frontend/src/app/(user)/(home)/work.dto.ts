@@ -1,4 +1,4 @@
-import z from 'zod';
+import { z } from '@/lib/zod';
 
 export const SelectedWorkSchema = z.object({
   id: z.string(),
