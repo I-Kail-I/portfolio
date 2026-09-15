@@ -56,7 +56,7 @@ export class SelectedWorkService {
       throw new NotFoundException('The work with this ID does not exist.');
     }
 
-    await this.redis.set(cacheKey, JSON.stringify(selectedWorks), 'EX', CACHE_TTL)
+    await this.redis.set(cacheKey, JSON.stringify(selectedWorks), 'EX', CACHE_TTL);
 
     return selectedWorks;
   }

@@ -87,7 +87,9 @@ describe('ImageCleanupProcessor', () => {
   });
 
   it('should still delete rows when file unlink fails (missing files)', async () => {
-    const pending = [{ id: '9', file_path: 'uploads/images/missing.jpg', file_name: 'missing.jpg' }];
+    const pending = [
+      { id: '9', file_path: 'uploads/images/missing.jpg', file_name: 'missing.jpg' },
+    ];
     asMock(mockPrisma.image.findMany).mockResolvedValue(pending);
     asMock(mockPrisma.image.deleteMany).mockResolvedValue({ count: 1 });
 

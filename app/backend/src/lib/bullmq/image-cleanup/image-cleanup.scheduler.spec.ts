@@ -13,7 +13,7 @@ import { ImageCleanupScheduler } from './image-cleanup.scheduler';
 const asMock = <T extends (...args: any[]) => any>(fn: unknown): Mock<T> => fn as Mock<T>;
 
 const mockQueue = {
-  add: jest.fn().mockResolvedValue({}),
+  upsertJobScheduler: jest.fn().mockResolvedValue({}),
 };
 
 describe('ImageCleanupScheduler', () => {
@@ -39,15 +39,14 @@ describe('ImageCleanupScheduler', () => {
   it('should register a nightly repeat job on module init', async () => {
     await scheduler.onModuleInit();
 
-    expect(asMock(mockQueue.add)).toHaveBeenCalledTimes(1);
-    expect(asMock(mockQueue.add)).toHaveBeenCalledWith(
-      IMAGE_CLEANUP_JOB,
-      {},
+    expect(asMock(mockQueue.upsertJobScheduler)).toHaveBeenCalledTimes(1);
+    expect(asMock(mockQueue.upsertJobScheduler)).toHaveBeenCalledWith(
+      IMAGE_CLEANUP_JOB_ID,
+      { pattern: IMAGE_CLEANUP_CRON, tz: IMAGE_CLEANUP_TIMEZONE },
       {
-        jobId: IMAGE_CLEANUP_JOB_ID,
-        repeat: { pattern: IMAGE_CLEANUP_CRON, tz: IMAGE_CLEANUP_TIMEZONE },
-        removeOnComplete: true,
-        removeOnFail: 100,
+        name: IMAGE_CLEANUP_JOB,
+        data: {},
+        opts: { removeOnComplete: true, removeOnFail: 100 },
       },
     );
   });

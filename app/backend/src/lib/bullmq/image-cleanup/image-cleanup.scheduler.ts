@@ -16,14 +16,13 @@ export class ImageCleanupScheduler implements OnModuleInit {
   constructor(@InjectQueue(IMAGE_CLEANUP_QUEUE) private readonly queue: Queue) {}
 
   async onModuleInit(): Promise<void> {
-    await this.queue.add(
-      IMAGE_CLEANUP_JOB,
-      {},
+    await this.queue.upsertJobScheduler(
+      IMAGE_CLEANUP_JOB_ID,
+      { pattern: IMAGE_CLEANUP_CRON, tz: IMAGE_CLEANUP_TIMEZONE },
       {
-        jobId: IMAGE_CLEANUP_JOB_ID,
-        repeat: { pattern: IMAGE_CLEANUP_CRON, tz: IMAGE_CLEANUP_TIMEZONE },
-        removeOnComplete: true,
-        removeOnFail: 100,
+        name: IMAGE_CLEANUP_JOB,
+        data: {},
+        opts: { removeOnComplete: true, removeOnFail: 100 },
       },
     );
     this.logger.log(`Image cleanup scheduled: ${IMAGE_CLEANUP_CRON} (${IMAGE_CLEANUP_TIMEZONE})`);

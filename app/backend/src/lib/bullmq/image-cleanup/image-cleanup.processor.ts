@@ -7,10 +7,7 @@ import { PrismaService } from '@/lib/prisma/prisma.service';
 import { RedisService } from '@/lib/redis/redis.service';
 import { UPLOAD_DIR } from '@/modules/file-upload/storage/image-storage';
 import { ALL_IMAGE_CACHE_KEY } from '@/modules/image/image.service';
-import {
-  IMAGE_CLEANUP_JOB,
-  IMAGE_CLEANUP_QUEUE,
-} from './image-cleanup.constants';
+import { IMAGE_CLEANUP_JOB, IMAGE_CLEANUP_QUEUE } from './image-cleanup.constants';
 
 @Processor(IMAGE_CLEANUP_QUEUE)
 export class ImageCleanupProcessor extends WorkerHost {
@@ -61,8 +58,6 @@ export class ImageCleanupProcessor extends WorkerHost {
     if (image.file_name) {
       candidates.add(join(process.cwd(), UPLOAD_DIR, image.file_name));
     }
-    await Promise.allSettled(
-      [...candidates].map((path) => unlink(path).catch(() => undefined)),
-    );
+    await Promise.allSettled([...candidates].map((path) => unlink(path).catch(() => undefined)));
   }
 }

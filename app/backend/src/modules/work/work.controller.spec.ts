@@ -23,6 +23,8 @@ describe('WorkController', () => {
     return {
       id: '1',
       name: 'My Work',
+      is_selected: false,
+      description: 'This is the description',
       content: 'This is my work.',
       image_url: 'upload/image.jpg',
       image_id: 'image-1',
@@ -55,6 +57,8 @@ describe('WorkController', () => {
     it('should call workService.create and return the result', async () => {
       const dto: CreateWorkDto = {
         name: 'My Work',
+        is_selected: false,
+        description: 'This is the description',
         content: 'This is my work.',
         image_url: 'upload/image.jpg',
         image_id: 'image-1',

@@ -1,8 +1,9 @@
 import { Module } from '@nestjs/common';
 import { BullModule } from '@nestjs/bullmq';
+import type { ConnectionOptions } from 'bullmq';
 import { ImageCleanupModule } from './image-cleanup/image-cleanup.module';
 
-function buildRedisConnection() {
+function buildRedisConnection(): ConnectionOptions {
   const url = process.env.REDIS_URL;
   if (url) {
     try {
@@ -15,7 +16,7 @@ function buildRedisConnection() {
         db: parsed.pathname?.length > 1 ? Number(parsed.pathname.slice(1)) : undefined,
       };
     } catch {
-      return url;
+      // Fall through to host/port env fallback on a malformed REDIS_URL.
     }
   }
   return {
