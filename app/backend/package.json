@@ -15,7 +15,7 @@
     "test:e2e": "bun test ./test/auth.e2e-spec.ts",
     "db:migrate-dev": "prisma migrate dev --name",
     "db:migrate-prod": "prisma migrate deploy",
-    "db:seed:work": "bun run src/seeds/work-seed.ts",
+    "db:seed": "bun run src/seeds/seeds.ts",
     "db:studio": "prisma studio",
     "db:generate": "prisma generate",
     "db:push": "prisma db push"

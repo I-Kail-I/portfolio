@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '@/lib/prisma/prisma.service';
 import { RedisService } from '@/lib/redis/redis.service';
 import { ResponseSelectedWork } from './dto/response.dto';
@@ -51,6 +51,12 @@ export class SelectedWorkService {
     if (selectedWorks) {
       await this.redis.set(cacheKey, JSON.stringify(selectedWorks), 'EX', CACHE_TTL);
     }
+
+    if (!selectedWorks) {
+      throw new NotFoundException('The work with this ID does not exist.');
+    }
+
+    await this.redis.set(cacheKey, JSON.stringify(selectedWorks), 'EX', CACHE_TTL)
 
     return selectedWorks;
   }

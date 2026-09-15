@@ -49,11 +49,11 @@ model Work {
   content     String
   description String
   image_url   String
-  image_id    String
+  image_id    String?
   badge       String[]
   is_selected Boolean  @default(false)
   hover_text  String
-  image       Image    @relation(fields: [image_id], references: [id], onDelete: Cascade)
+  image       Image?    @relation(fields: [image_id], references: [id], onDelete: Cascade)
   created_at  DateTime @default(now())
   updated_at  DateTime @updatedAt
 
@@ -83,10 +83,10 @@ model Blog {
   badge       String[]
   hover_text  String
   image_url   String
-  image_id    String
+  image_id    String?
   created_at  DateTime @default(now())
   updated_at  DateTime @updatedAt
-  image       Image    @relation(fields: [image_id], references: [id], onDelete: Cascade)
+  image       Image?    @relation(fields: [image_id], references: [id], onDelete: Cascade)
 
   @@map("blogs")
   @@schema("public")

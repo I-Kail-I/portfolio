@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateWorkDto } from './dto/create-work.dto';
 import { UpdateWorkDto } from './dto/update-work.dto';
 import { PrismaService } from '@/lib/prisma/prisma.service';
@@ -52,6 +52,10 @@ export class WorkService {
     await this.redis
       .set(key, JSON.stringify(work), 'EX', WORK_CACHE_TTL_SECONDS)
       .catch(() => undefined);
+
+    if (!work) {
+      throw new NotFoundException('The work with this ID does not exist.');
+    }
     return work;
   }
 
