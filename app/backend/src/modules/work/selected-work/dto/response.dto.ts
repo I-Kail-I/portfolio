@@ -19,8 +19,8 @@ export class ResponseSelectedWork {
   @ApiProperty({ example: 'upload/image.jpg' })
   image_url!: string;
 
-  @ApiProperty({ example: '01a05b3d-a607-775f-b3cc-ecc76e601d98' })
-  image_id!: string;
+  @ApiProperty({ example: '01a05b3d-a607-775f-b3cc-ecc76e601d98', nullable: true })
+  image_id!: string | null;
 
   @ApiProperty({ example: ['badge1', 'badge2'] })
   badge!: string[];

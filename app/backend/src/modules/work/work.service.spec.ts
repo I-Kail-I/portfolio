@@ -35,6 +35,8 @@ function createMockWork(overrides = {}): WorkResponseDto {
   return {
     id: '1',
     name: 'My Work',
+    is_selected: false,
+    description: 'This is the description',
     content: 'This is my work.',
     image_url: 'upload/image.jpg',
     image_id: 'image-1',
@@ -75,6 +77,8 @@ describe('WorkService', () => {
     it('should create a work entry and invalidate the list cache', async () => {
       const dto: CreateWorkDto = {
         name: 'My Work',
+        is_selected: false,
+        description: 'This is the description',
         content: 'This is my work.',
         image_url: 'upload/image.jpg',
         image_id: 'image-1',

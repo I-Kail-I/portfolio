@@ -5,7 +5,7 @@ export const WorkSchema = z.object({
   name: z.string(),
   content: z.string(),
   image_url: z.string(),
-  image_id: z.string(),
+  image_id: z.string().nullable(),
   badge: z.array(z.string()),
   description: z.string(),
   is_selected: z.boolean(),

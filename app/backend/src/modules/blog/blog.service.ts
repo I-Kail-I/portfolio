@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateBlogDto } from './dto/create-blog.dto';
 import { UpdateBlogDto } from './dto/update-blog.dto';
 import { PrismaService } from '@/lib/prisma/prisma.service';
@@ -50,6 +50,11 @@ export class BlogService {
     await this.redis
       .set(key, JSON.stringify(blog), 'EX', BLOG_CACHE_TTL_SECONDS)
       .catch(() => undefined);
+
+    if (!blog) {
+      throw new NotFoundException('The blog with this ID does not exist.');
+    }
+
     return blog;
   }
 
